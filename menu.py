@@ -22,13 +22,46 @@ class TelaLogin:
         self.janela.config(menu=self.menu)
 
     def cadastrar_livro(self):
-        self.top_cadastro_livro = ttk.Toplevel(self.janela)
+        self.top_cadastro_livro = tk.Toplevel(self.janela,width=100)
+        
 
-        self.frm_cad_livro = Frame(self.top_cadastro_livro)
-        self.frm_cad_livro.pack(anchor='center', expand=True, side='left')
-
-        self.lbl_nomeLivro = ttk.Label(self.frm_cad_livro, text='Nome')
+        # def atualizar_label(janela):
+            # if combobox.get()=="Novo Autor":
+            #     nvoLivro = ttk.Label(janela,text='Digite o novo autor')
+            #     nvoLivro.pack()
+            #     cmpNvoLivro = ttk.Entry(janela)
+            #     cmpNvoLivro.pack()
+        
+        
+        self.lbl_nomeLivro = ttk.Label(self.top_cadastro_livro, text='Nome')
         self.lbl_nomeLivro.pack()
+
+        self.cmp_nomeLivro = ttk.Entry(self.top_cadastro_livro,width=50)
+        self.cmp_nomeLivro.pack(pady=20,padx=40)
+
+        self.lbl_autorLivro = ttk.Label(self.top_cadastro_livro,text='Autor')
+        self.lbl_autorLivro.pack()
+        self.opcoes = ["Novo Autor", "Opção 2", "Opção 3", "Opção 4"]
+
+        self.combobox_autorLivro = ttk.Combobox(self.top_cadastro_livro, values=self.opcoes,width=50)
+        self.combobox_autorLivro.pack(pady=20,padx=40)
+        # combobox.bind("<<ComboboxSelected>>", atualizar_label(self.top_cadastro_livro))
+        
+        self.lbl_nmeEditora = ttk.Label(self.top_cadastro_livro,text='Editora')
+        self.lbl_nmeEditora.place(x=200,y=270)
+
+        self.lbl_sessao = ttk.Label(self.top_cadastro_livro,text='Número da Sessão')
+        self.lbl_sessao.place(x=40,y=270)
+
+        self.cmp_nmeEditora = ttk.Entry(self.top_cadastro_livro)
+        self.cmp_nmeEditora.pack(pady=20,padx=40,side=ttk.LEFT)
+
+        self.opcoesSessao = [1,2,3,4,5,6,7]
+
+        self.combobox_lblSessao = ttk.Combobox(self.top_cadastro_livro,values=self.opcoesSessao,width=25)
+        self.combobox_lblSessao.pack(side=ttk.RIGHT)
+
+
 
         #nome, edição, tipo, sessão, autor, editora
 

@@ -82,18 +82,18 @@ class TelaLogin:
         # combobox.bind("<<ComboboxSelected>>", atualizar_label(self.top_cadastro_livro))
         
         self.lbl_nmeEditora = ttk.Label(self.top_cadastro_livro,text='Editora')
-        self.lbl_nmeEditora.place(x=200,y=270)
+        self.lbl_nmeEditora.pack(anchor='w',padx=40)
 
         self.lbl_sessao = ttk.Label(self.top_cadastro_livro,text='Número da Sessão')
-        self.lbl_sessao.place(x=40,y=270)
-
-        self.cmp_nmeEditora = ttk.Entry(self.top_cadastro_livro)
-        self.cmp_nmeEditora.pack(pady=20,padx=40,side=ttk.LEFT)
+        self.lbl_sessao.pack(anchor='e',padx=40)
 
         self.opcoesSessao = [1,2,3,4,5,6,7]
 
+        self.cmp_nmeEditora = ttk.Combobox(self.top_cadastro_livro,values=self.opcoesSessao,width=25)
+        self.cmp_nmeEditora.pack(side=ttk.LEFT,anchor='w',pady=30,padx=20)
+
         self.combobox_lblSessao = ttk.Combobox(self.top_cadastro_livro,values=self.opcoesSessao,width=25)
-        self.combobox_lblSessao.pack(side=ttk.RIGHT)
+        self.combobox_lblSessao.pack(side=ttk.RIGHT,anchor='e',pady=30,padx=20)
 
         #nome, edição, tipo, sessão, autor, editora
 

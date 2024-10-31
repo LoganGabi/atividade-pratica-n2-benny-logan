@@ -4,5 +4,7 @@ class Livro:
         self.edicao = edicao
         self.nomeLivro = nomeEditora
 
-    def adicionarLivro(self):
+    def adicionar_livro(self):
+        ...
+    def listar_livros(self):
         ...

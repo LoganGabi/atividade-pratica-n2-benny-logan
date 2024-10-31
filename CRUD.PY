@@ -33,6 +33,4 @@ class CRUD():
         except sqlite3.Error as er:
             print(er)
 
-entidade = "TipoLivro"
-c1 = CRUD()
-c1.listar(entidade)
+

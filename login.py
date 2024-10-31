@@ -7,6 +7,8 @@ class TelaLogin:
     def __init__(self, master):
         self.janela = master
 
+
+# ----------------TELA DE LOGIN ----------------------------
         self.frmL = ttk.Frame(self.janela, style='danger')
         self.frmL.pack(anchor='center', expand=True, side='left')
 
@@ -31,6 +33,27 @@ class TelaLogin:
 
         self.btnEntrar = ttk.Button(text='ENTRAR',command=self.entrar_sistema)
         self.btnEntrar.pack()
+# ----------------TELA DE LOGIN ----------------------------
+
+# ----------------TREVIEWW LIVRO ----------------------------
+        self.coldataLivro = [
+        {"text": "ID", "stretch": False},
+        "Nome",
+        {"text": "Tipo", "stretch": False},
+        {"text": "Sessão", "stretch": False}
+        ]
+        self.trevieewLivro = Tableview(self.janela,coldata=self.coldataLivro,paginated=True,bootstyle=PRIMARY,height=20)
+# ----------------TREVIEEW LIVRO ----------------------------
+
+# ----------------TREVIEEW AUTOR ----------------------------
+        self.coldataAutor =  [
+        {"text": "ID", "stretch": False},
+        "Nome",
+        {"text": "nomeAutor", "stretch": False}
+        ]
+
+        self.trevieewAutor = Tableview(self.janela,coldata=self.coldataAutor,paginated=True,bootstyle=PRIMARY,height=20)
+# ----------------TREVIEWW AUTOR ----------------------------
     
     def entrar_sistema(self):
         self.frmL.destroy()
@@ -54,6 +77,9 @@ class TelaLogin:
 
         self.mnu_livros.add_command(label='Cadastrar Livro', command=self.cadastrar_livro)
         self.mnu_livros.add_command(label='Visualizar Livro',command=self.exibir_livros)
+
+        self.mnu_autores.add_command(label='Cadastrar Autor',command=None)
+        self.mnu_autores.add_command(label='Visualizar Autores',command=self.exibir_autores)
 
         self.janela.config(menu=self.menu)
         
@@ -79,7 +105,6 @@ class TelaLogin:
 
         self.combobox_autorLivro = ttk.Combobox(self.top_cadastro_livro, values=self.opcoes,width=50)
         self.combobox_autorLivro.pack(pady=20,padx=40)
-        # combobox.bind("<<ComboboxSelected>>", atualizar_label(self.top_cadastro_livro))
         
         self.lbl_nmeEditora = ttk.Label(self.top_cadastro_livro,text='Editora')
         self.lbl_nmeEditora.pack(anchor='w',padx=40)
@@ -98,7 +123,9 @@ class TelaLogin:
         #nome, edição, tipo, sessão, autor, editora
 
     def exibir_livros(self):
-        coldata = [
+        self.trevieewAutor.destroy()
+        self.trevieewLivro.destroy()
+        self.coldataLivro = [
         {"text": "ID", "stretch": False},
         "Nome",
         {"text": "Tipo", "stretch": False},
@@ -111,8 +138,24 @@ class TelaLogin:
         #     ('A158', 'Farmadding Co.', 36)
         # ]
 
-        trevieww = Tableview(self.janela,coldata=coldata,paginated=True,bootstyle=PRIMARY,height=20)
-        trevieww.pack(fill=tk.Y,padx=25,pady=25)
+        self.trevieewLivro = Tableview(self.janela,coldata=self.coldataLivro,paginated=True,bootstyle=PRIMARY,height=20)
+        self.trevieewLivro.pack(fill=tk.Y,padx=25,pady=25)
+
+    def exibir_autores(self):
+        self.trevieewLivro.destroy()
+        self.trevieewAutor.destroy()
+
+        self.coldataAutor =  [
+        {"text": "ID", "stretch": False},
+        "Nome",
+        {"text": "nomeAutor", "stretch": False}
+        ]
+
+        # rowdata = 
+        self.trevieewAutor = Tableview(self.janela,coldata=self.coldataAutor,paginated=True,bootstyle=PRIMARY,height=20)
+        self.trevieewAutor.pack(fill=tk.Y,padx=25,pady=25)
+    
+
 
 
 

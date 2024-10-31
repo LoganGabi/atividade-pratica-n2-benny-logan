@@ -2,8 +2,8 @@ import sqlite3
 
 
 class Conexao:
-    def createConexao(self):
-        caminho = "./bancoBiblio.sqbpro"
+    def getConexao(self):
+        caminho = "./bancoBiblio.db"
         conexao = None
         try:
             conexao = sqlite3.connect(caminho)
@@ -12,5 +12,4 @@ class Conexao:
             print(er)
         return conexao
     
-c = Conexao().createConexao()
 

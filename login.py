@@ -3,11 +3,12 @@ from ttkbootstrap import Frame
 from ttkbootstrap.tableview import Tableview
 from ttkbootstrap.constants import *
 import tkinter as tk
+from autor import Autor
 class TelaLogin:
     def __init__(self, master):
         self.janela = master
 
-
+        self.autor = Autor()
 # ----------------TELA DE LOGIN ----------------------------
         self.frmL = ttk.Frame(self.janela, style='danger')
         self.frmL.pack(anchor='center', expand=True, side='left')
@@ -145,14 +146,15 @@ class TelaLogin:
         self.trevieewLivro.destroy()
         self.trevieewAutor.destroy()
 
+        autorGet = self.autor.listar_autor()
         self.coldataAutor =  [
         {"text": "ID", "stretch": False},
-        "Nome",
         {"text": "nomeAutor", "stretch": False}
         ]
+        self.rowdataAutor = autorGet
 
         # rowdata = 
-        self.trevieewAutor = Tableview(self.janela,coldata=self.coldataAutor,paginated=True,bootstyle=PRIMARY,height=20)
+        self.trevieewAutor = Tableview(self.janela,coldata=self.coldataAutor,rowdata=self.rowdataAutor,paginated=True,bootstyle=PRIMARY,height=20)
         self.trevieewAutor.pack(fill=tk.Y,padx=25,pady=25)
     
 

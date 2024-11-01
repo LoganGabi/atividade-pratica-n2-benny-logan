@@ -9,7 +9,7 @@ class Autor:
         self.atributos = 'nomeAutor'
 
     def adicionar_autor(self,dados):
-        return self.crud.inserir(self.entidade,self.atributos,dados)
+        self.crud.inserir(self.entidade,self.atributos,dados)
 
     def listar_autor(self):
         return self.crud.listar(self.entidade)

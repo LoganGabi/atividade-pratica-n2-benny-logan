@@ -49,12 +49,20 @@ class TelaLogin:
 # ----------------TREVIEEW AUTOR ----------------------------
         self.coldataAutor =  [
         {"text": "ID", "stretch": False},
-        "Nome",
         {"text": "nomeAutor", "stretch": False}
         ]
 
         self.trevieewAutor = Tableview(self.janela,coldata=self.coldataAutor,paginated=True,bootstyle=PRIMARY,height=20)
-# ----------------TREVIEWW AUTOR ----------------------------
+# ----------------TREVIEEW AUTOR ----------------------------
+
+# ----------------TREVIEEW SESSÃO ----------------------------
+        self.coldataSessao = [
+            {"text":"ID","stretch":False},
+            {"text":"numeroSessao","stretch":False}
+        ]
+
+        self.trevieewSessao = Tableview(self.janela,coldata=self.coldataSessao,paginated=True,bootstyle=PRIMARY,height=20)
+# ----------------TREVIEEW SESSÃO ----------------------------
     
     def entrar_sistema(self):
         self.frmL.destroy()
@@ -81,6 +89,9 @@ class TelaLogin:
 
         self.mnu_autores.add_command(label='Cadastrar Autor',command=None)
         self.mnu_autores.add_command(label='Visualizar Autores',command=self.exibir_autores)
+
+        self.mnu_sessoes.add_command(label='Cadastrar Sessão',command=None)
+        self.mnu_sessoes.add_command(label='Visualizar Sessão',command=self.exibir_sessoes)
 
         self.janela.config(menu=self.menu)
         
@@ -124,14 +135,9 @@ class TelaLogin:
         #nome, edição, tipo, sessão, autor, editora
 
     def exibir_livros(self):
+        self.trevieewSessao.destroy()
         self.trevieewAutor.destroy()
         self.trevieewLivro.destroy()
-        self.coldataLivro = [
-        {"text": "ID", "stretch": False},
-        "Nome",
-        {"text": "Tipo", "stretch": False},
-        {"text": "Sessão", "stretch": False}
-        ]
 
         # rowdata = [
         #     ('A123', 'IzzyCo', 12),
@@ -142,20 +148,29 @@ class TelaLogin:
         self.trevieewLivro = Tableview(self.janela,coldata=self.coldataLivro,paginated=True,bootstyle=PRIMARY,height=20)
         self.trevieewLivro.pack(fill=tk.Y,padx=25,pady=25)
 
+    
     def exibir_autores(self):
+        self.trevieewSessao.destroy()
         self.trevieewLivro.destroy()
         self.trevieewAutor.destroy()
 
         autorGet = self.autor.listar_autor()
-        self.coldataAutor =  [
-        {"text": "ID", "stretch": False},
-        {"text": "nomeAutor", "stretch": False}
-        ]
         self.rowdataAutor = autorGet
 
         # rowdata = 
         self.trevieewAutor = Tableview(self.janela,coldata=self.coldataAutor,rowdata=self.rowdataAutor,paginated=True,bootstyle=PRIMARY,height=20)
         self.trevieewAutor.pack(fill=tk.Y,padx=25,pady=25)
+
+
+    def cadastrar_sessao(self):
+        ...
+
+    def exibir_sessoes(self):
+        self.trevieewAutor.destroy()
+        self.trevieewLivro.destroy()
+        self.trevieewSessao.destroy()
+        self.trevieewSessao = Tableview(self.janela,coldata=self.coldataSessao,paginated=True,bootstyle=PRIMARY,height=20)
+        self.trevieewSessao.pack(fill=tk.Y,padx=25,pady=25)
     
 
 

@@ -1,6 +1,5 @@
 import sqlite3
 
-
 class Conexao:
     def getConexao(self):
         caminho = "./bancoBiblio.db"

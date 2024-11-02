@@ -4,6 +4,7 @@ from ttkbootstrap.tableview import Tableview
 from ttkbootstrap.constants import *
 import tkinter as tk
 from autor import Autor
+from editora import Editora
 
 class TelaLogin:
     def __init__(self, master):
@@ -76,6 +77,16 @@ class TelaLogin:
 
         self.trevieewSessao = Tableview(self.janela,coldata=self.coldataSessao,paginated=True,bootstyle=PRIMARY,height=20)
 # ----------------TREVIEEW SESSÃO ----------------------------
+
+# ----------------TREVIEEW EDITORA ----------------------------
+        self.coldataEditora = [
+            {"text":"ID","stretch":False},
+            {"text":"nomeEditora","stretch":False}
+        ]
+
+        self.trevieewEditora = Tableview(self.janela,coldata=self.coldataEditora,paginated=True,bootstyle=PRIMARY,height=20)
+        self.frame_botoesEditoras = tk.Frame(self.janela)
+# ----------------TREVIEEW EDITORA ----------------------------
     
     def entrar_sistema(self):
         # destruição dos frames de login ao entrar no sistema
@@ -87,10 +98,12 @@ class TelaLogin:
         self.mnu_livros = ttk.Menu(self.menu)
         self.mnu_autores = ttk.Menu(self.menu)
         self.mnu_sessoes = ttk.Menu(self.menu)
+        self.mnu_editoras = ttk.Menu(self.menu)
 
         self.menu.add_cascade(label='LIVROS', menu=self.mnu_livros, font=self.fontelbl)
         self.menu.add_cascade(label='AUTORES', menu=self.mnu_autores)
         self.menu.add_cascade(label='SESSÕES', menu=self.mnu_sessoes)
+        self.menu.add_cascade(label="EDITORAS",menu=self.mnu_editoras)
 
         self.mnu_livros.add_command(label='Cadastrar Livro', command=self.cadastrar_livro)
         self.mnu_livros.add_command(label='Visualizar Livro',command=self.exibir_livros)
@@ -100,6 +113,9 @@ class TelaLogin:
 
         self.mnu_sessoes.add_command(label='Cadastrar Sessão',command=None)
         self.mnu_sessoes.add_command(label='Visualizar Sessão',command=self.exibir_sessoes)
+
+        self.mnu_editoras.add_command(label="Cadastrar Editora",command=self.cadastrar_editora)
+        self.mnu_editoras.add_command(label="Visualizar Editora",command=self.exibir_editoras)
 
         self.janela.config(menu=self.menu)
         
@@ -160,6 +176,8 @@ class TelaLogin:
         #nome, edição, tipo, sessão, autor, editora
 
     def exibir_livros(self):
+        self.trevieewEditora.destroy()
+        self.frame_botoesEditoras.destroy()
         self.trevieewSessao.destroy()
         self.trevieewAutor.destroy()
         self.trevieewLivro.destroy()
@@ -175,6 +193,9 @@ class TelaLogin:
 
     
     def exibir_autores(self):
+        self.trevieewEditora.destroy()
+        self.frame_botoesEditoras.destroy()
+
         self.trevieewSessao.destroy()
         self.trevieewLivro.destroy()
         self.trevieewAutor.destroy()
@@ -191,12 +212,60 @@ class TelaLogin:
         ...
 
     def exibir_sessoes(self):
+        self.trevieewEditora.destroy()
+        self.frame_botoesEditoras.destroy()
+
         self.trevieewAutor.destroy()
         self.trevieewLivro.destroy()
         self.trevieewSessao.destroy()
         self.trevieewSessao = Tableview(self.janela,coldata=self.coldataSessao,paginated=True,bootstyle=PRIMARY,height=20)
         self.trevieewSessao.pack(fill=tk.Y,padx=25,pady=25)
     
+
+    def cadastrar_editora(self):
+        ed1 = Editora()
+        self.top_cadastroEditora = tk.Toplevel(self.janela,width=100)
+        self.top_cadastroEditora.title('Cadastro de Livro')
+        self.top_cadastroEditora.grab_set()
+
+        # alteração do ícone da janela
+        self.icone2 = tk.PhotoImage(file='logo_biblio2.png')
+        self.top_cadastroEditora.wm_iconphoto(False, self.icone2)
+
+        self.cadastroEditora = Frame(self.top_cadastroEditora, padding=10)
+        self.cadastroEditora.pack(anchor='center', expand=True, side='left')
+
+
+        self.str_nomeEditora = tk.StringVar()
+
+        self.lbl_cadastroEditora = ttk.Label(self.cadastroEditora, text='Nome da Editora:', font=self.fontelbl)
+        self.lbl_cadastroEditora.pack(anchor='center')
+        self.cmpo_cadastroEditora = ttk.Entry(self.cadastroEditora, width=50, font=self.fonteent,textvariable=self.str_nomeEditora)
+        self.cmpo_cadastroEditora.pack(anchor='center')
+        self.btnCadEditora = Button(self.cadastroEditora, text='CADASTRAR', command=lambda: ed1.adicionar_editora(f'"{self.str_nomeEditora.get()}"'))
+        self.btnCadEditora.pack(anchor='center', expand=True, pady=10)
+
+    def exibir_editoras(self):
+        self.trevieewEditora.destroy()
+        self.trevieewAutor.destroy()
+        self.trevieewLivro.destroy()
+        self.trevieewSessao.destroy()
+        self.trevieewEditora = Tableview(self.janela, coldata=self.coldataEditora, paginated=True, bootstyle="PRIMARY", height=20)
+        self.trevieewEditora.pack(fill=tk.Y, padx=25, pady=25)
+
+        self.frame_botoesEditoras = tk.Frame(self.janela)
+        self.frame_botoesEditoras.pack(pady=10) 
+
+        self.btn_excluirEditora = ttk.Button(self.frame_botoesEditoras, text="EXCLUIR",bootstyle=DANGER)
+        self.btn_excluirEditora.pack(side=tk.LEFT, padx=5)
+
+        self.btn_cadastrarEditora = ttk.Button(self.frame_botoesEditoras, text="CADASTRAR",bootstyle=SUCCESS)
+        self.btn_cadastrarEditora.pack(side=tk.LEFT, padx=5)
+
+        self.btn_editarEditora = ttk.Button(self.frame_botoesEditoras, text="EDITAR",bootstyle=LIGHT)
+        self.btn_editarEditora.pack(side=tk.LEFT, padx=5)
+
+        
 
 
 

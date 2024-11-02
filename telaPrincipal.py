@@ -275,21 +275,48 @@ class TelaLogin:
         self.frame_botoesEditoras.pack(pady=10) 
 
         # Botão de excluir  
-        self.btn_excluirEditora = ttk.Button(self.frame_botoesEditoras, text="EXCLUIR", bootstyle="DANGER", command=lambda: self.excluir_editora(self.editora_get,self.trevieewEditora.selection()) )
+        self.btn_excluirEditora = ttk.Button(self.frame_botoesEditoras, text="EXCLUIR", bootstyle="DANGER", command=lambda: self.excluir_editora(self.trevieewEditora.selection()) )
         self.btn_excluirEditora.pack(side=tk.LEFT, padx=5)
 
         # Botão de editar
-        self.btn_editarEditora = ttk.Button(self.frame_botoesEditoras, text="EDITAR", bootstyle="SUCCESS")
+        self.btn_editarEditora = ttk.Button(self.frame_botoesEditoras, text="EDITAR", bootstyle="SUCCESS",command=lambda: self.editar_editora(self.trevieewEditora.selection()))
         self.btn_editarEditora.pack(side=tk.LEFT, padx=5)
 
 
 
-    def excluir_editora(self,editoras,editora_selecionada):
+    def excluir_editora(self,editora_selecionada):
         e1 = Editora()
         id_editora = editora_selecionada[0]
         show_info = Messagebox.show_question(f"VOCÊ TEM CERTEZA QUE DESEJA DELETAR A EDITORA DE ID = {id_editora}",title='CONFIRMAÇÃO DE EXCLUSÃO')
         if show_info:
             e1.excluir_editora(id_editora)
+
+    def editar_editora(self,editora_selecionada):
+        e1 = Editora()
+        id_editora = editora_selecionada[0]
+
+        self.top_edicaoEditora = tk.Toplevel(self.janela,width=100)
+        self.top_edicaoEditora.title('edicao de Livro')
+        self.top_edicaoEditora.grab_set()
+
+        # alteração do ícone da janela
+        self.icone2 = tk.PhotoImage(file='logo_biblio2.png')
+        self.top_edicaoEditora.wm_iconphoto(False, self.icone2)
+
+        self.edicaoEditora = Frame(self.top_edicaoEditora, padding=10)
+        self.edicaoEditora.pack(anchor='center', expand=True, side='left')
+
+
+        self.str_nomeEditora = tk.StringVar()
+
+        self.lbl_edicaoEditora = ttk.Label(self.edicaoEditora, text='Nome da Editora:', font=self.fontelbl)
+        self.lbl_edicaoEditora.pack(anchor='center')
+        self.cmpo_edicaoEditora = ttk.Entry(self.edicaoEditora, width=50, font=self.fonteent,textvariable=self.str_nomeEditora)
+        self.cmpo_edicaoEditora.insert(0,e1.get_dado_editora('nomeEditora',id_editora))
+        self.cmpo_edicaoEditora.pack(anchor='center')
+        self.btnEdiEditora = Button(self.edicaoEditora, text='EDITAR',command=lambda:e1.editar_editora(id_editora,self.str_nomeEditora.get()))
+        self.btnEdiEditora.pack(anchor='center', expand=True, pady=10)
+
 
 
 janela = ttk.Window(themename='vapor')

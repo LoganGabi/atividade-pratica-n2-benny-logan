@@ -33,11 +33,9 @@ class CRUD():
         except sqlite3.Error as er:
             print(er)
 
-
     def excluir(self,entidade,id):
         sql = f"""DELETE FROM {entidade} WHERE id = {id}"""
         try:
-            ...
             con = self.conexao.getConexao()
             cursor = con.cursor()
             cursor.execute(sql)
@@ -46,5 +44,31 @@ class CRUD():
             con.close()
         except sqlite3.Error as er:
             print(er)
+
+    def atualizar(self,entidade,id,set_atributos):
+        sql = f"""UPDATE {entidade} SET  {set_atributos} WHERE id = {id}"""
+        try:
+            con = self.conexao.getConexao()
+            cursor = con.cursor()
+            cursor.execute(sql)
+            con.commit()
+            print('Editado')
+            con.close()
+        except sqlite3.Error as er:
+            print(er)
+
+    def get_dado_atributo(self,entidade,atributo,id):
+        sql = f"""SELECT {atributo} FROM {entidade} WHERE id = {id}"""
+        try:
+            con = self.conexao.getConexao()
+            cursor = con.cursor()
+            cursor.execute(sql)
+            resultado = cursor.fetchone()
+            con.close()
+            return resultado[0]
+        except sqlite3.Error as er:
+            print(er)
+
+
 
 

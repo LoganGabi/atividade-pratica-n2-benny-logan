@@ -116,6 +116,7 @@ class TelaLogin:
 
         self.mnu_editoras.add_command(label="Cadastrar Editora",command=self.cadastrar_editora)
         self.mnu_editoras.add_command(label="Visualizar Editora",command=self.exibir_editoras)
+        self.mnu_editoras.add_command(label="Excluir Editora",command=self.excluir_editora)
 
         self.janela.config(menu=self.menu)
         
@@ -245,33 +246,45 @@ class TelaLogin:
         self.btnCadEditora = Button(self.cadastroEditora, text='CADASTRAR', command=lambda: ed1.adicionar_editora(f'"{self.str_nomeEditora.get()}"'))
         self.btnCadEditora.pack(anchor='center', expand=True, pady=10)
 
+
+
     def exibir_editoras(self):
+        # Limpa os widgets anteriores
         self.trevieewEditora.destroy()
+        self.frame_botoesEditoras.destroy()
         self.trevieewAutor.destroy()
         self.trevieewLivro.destroy()
         self.trevieewSessao.destroy()
+        
         e1 = Editora()
         self.editora_get = e1.listar_editora()
-        self.rowdataEditora =self.editora_get
+        self.rowdataEditora = self.editora_get
 
-        self.trevieewEditora = Tableview(self.janela, coldata=self.coldataEditora,rowdata=self.rowdataEditora,paginated=True, bootstyle="PRIMARY", height=20)
+        self.trevieewEditora = ttk.Treeview(self.janela, columns=['0', '1'], show='headings', selectmode='browse', height=25)
+        self.trevieewEditora.heading('0', text='ID')
+        self.trevieewEditora.heading('1', text='Nome da Editora')
         self.trevieewEditora.pack(fill=tk.Y, padx=25, pady=25)
 
+        for row in self.editora_get:
+            self.trevieewEditora.insert('', 'end', iid=row[0], values=(row[0], row[1]))
+
+
+        # # Frame para os botões
         self.frame_botoesEditoras = tk.Frame(self.janela)
         self.frame_botoesEditoras.pack(pady=10) 
 
-        self.btn_excluirEditora = ttk.Button(self.frame_botoesEditoras, text="EXCLUIR",bootstyle=DANGER)
+        # Botão de excluir  
+        self.btn_excluirEditora = ttk.Button(self.frame_botoesEditoras, text="EXCLUIR", bootstyle="DANGER", command=lambda: self.excluir_item(self.trevieewEditora.get_rows(selected=True)))
         self.btn_excluirEditora.pack(side=tk.LEFT, padx=5)
 
-        self.btn_cadastrarEditora = ttk.Button(self.frame_botoesEditoras, text="CADASTRAR",bootstyle=SUCCESS)
-        self.btn_cadastrarEditora.pack(side=tk.LEFT, padx=5)
-
-        self.btn_editarEditora = ttk.Button(self.frame_botoesEditoras, text="EDITAR",bootstyle=LIGHT)
+        # Botão de editar
+        self.btn_editarEditora = ttk.Button(self.frame_botoesEditoras, text="EDITAR", bootstyle="SUCCESS")
         self.btn_editarEditora.pack(side=tk.LEFT, padx=5)
 
-        
 
 
+    def excluir_editora(self):
+        ...
 
 
 janela = ttk.Window(themename='vapor')

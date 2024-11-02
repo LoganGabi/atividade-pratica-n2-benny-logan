@@ -117,7 +117,6 @@ class TelaLogin:
 
         self.mnu_editoras.add_command(label="Cadastrar Editora",command=self.cadastrar_editora)
         self.mnu_editoras.add_command(label="Visualizar Editora",command=self.exibir_editoras)
-        self.mnu_editoras.add_command(label="Excluir Editora",command=self.excluir_editora)
 
         self.janela.config(menu=self.menu)
         

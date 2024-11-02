@@ -34,3 +34,17 @@ class CRUD():
             print(er)
 
 
+    def excluir(self,entidade,id):
+        sql = f"""DELETE FROM {entidade} WHERE id = {id}"""
+        try:
+            ...
+            con = self.conexao.getConexao()
+            cursor = con.cursor()
+            cursor.execute(sql)
+            con.commit()
+            print("item deletado")
+            con.close()
+        except sqlite3.Error as er:
+            print(er)
+
+

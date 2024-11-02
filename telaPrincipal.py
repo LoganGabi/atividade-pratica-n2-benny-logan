@@ -5,6 +5,7 @@ from ttkbootstrap.constants import *
 import tkinter as tk
 from autor import Autor
 from editora import Editora
+from ttkbootstrap.dialogs import Messagebox
 
 class TelaLogin:
     def __init__(self, master):
@@ -266,15 +267,15 @@ class TelaLogin:
         self.trevieewEditora.pack(fill=tk.Y, padx=25, pady=25)
 
         for row in self.editora_get:
-            self.trevieewEditora.insert('', 'end', iid=row[0], values=(row[0], row[1]))
+            self.trevieewEditora.insert('', 'end', id=row[0], values=(row[0], row[1]))
 
-
+    
         # # Frame para os botões
         self.frame_botoesEditoras = tk.Frame(self.janela)
         self.frame_botoesEditoras.pack(pady=10) 
 
         # Botão de excluir  
-        self.btn_excluirEditora = ttk.Button(self.frame_botoesEditoras, text="EXCLUIR", bootstyle="DANGER", command=lambda: self.excluir_item(self.trevieewEditora.get_rows(selected=True)))
+        self.btn_excluirEditora = ttk.Button(self.frame_botoesEditoras, text="EXCLUIR", bootstyle="DANGER", command=lambda: self.excluir_editora(self.editora_get,self.trevieewEditora.selection()) )
         self.btn_excluirEditora.pack(side=tk.LEFT, padx=5)
 
         # Botão de editar
@@ -283,8 +284,12 @@ class TelaLogin:
 
 
 
-    def excluir_editora(self):
-        ...
+    def excluir_editora(self,editoras,editora_selecionada):
+        e1 = Editora()
+        id_editora = editora_selecionada[0]
+        show_info = Messagebox.show_question(f"VOCÊ TEM CERTEZA QUE DESEJA DELETAR A EDITORA DE ID = {id_editora}",title='CONFIRMAÇÃO DE EXCLUSÃO')
+        if show_info:
+            e1.excluir_editora(id_editora)
 
 
 janela = ttk.Window(themename='vapor')

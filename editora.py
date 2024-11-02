@@ -15,3 +15,6 @@ class Editora:
     def listar_editora(self):
         return self.crud.listar(self.entidade)
     
+    def excluir_editora(self,id):
+        self.crud.excluir(self.entidade,id)
+    

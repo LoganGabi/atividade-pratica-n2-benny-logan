@@ -250,7 +250,11 @@ class TelaLogin:
         self.trevieewAutor.destroy()
         self.trevieewLivro.destroy()
         self.trevieewSessao.destroy()
-        self.trevieewEditora = Tableview(self.janela, coldata=self.coldataEditora, paginated=True, bootstyle="PRIMARY", height=20)
+        e1 = Editora()
+        self.editora_get = e1.listar_editora()
+        self.rowdataEditora =self.editora_get
+
+        self.trevieewEditora = Tableview(self.janela, coldata=self.coldataEditora,rowdata=self.rowdataEditora,paginated=True, bootstyle="PRIMARY", height=20)
         self.trevieewEditora.pack(fill=tk.Y, padx=25, pady=25)
 
         self.frame_botoesEditoras = tk.Frame(self.janela)

@@ -113,7 +113,7 @@ class TelaLogin:
         self.mnu_livros.add_command(label='Cadastrar Livro', command=self.cadastrar_livro)
         self.mnu_livros.add_command(label='Visualizar Livro',command=self.exibir_livros)
 
-        self.mnu_autores.add_command(label='Cadastrar Autor',command=None)
+        self.mnu_autores.add_command(label='Cadastrar Autor',command=self.cadastrar_autor)
         self.mnu_autores.add_command(label='Visualizar Autores',command=self.exibir_autores)
 
         self.mnu_sessoes.add_command(label='Cadastrar Sessão',command=self.cadastrar_sessao)
@@ -204,17 +204,47 @@ class TelaLogin:
         self.trevieewLivro.heading('4',text='ID Sessão')
         self.trevieewLivro.pack(fill=tk.Y, padx=25, pady=25)
 
+    def cadastrar_autor(self):
+        self.at1 = Autor()
+        self.top_cadastroAutor = tk.Toplevel(self.janela,width=100)
+        self.top_cadastroAutor.title('Cadastro de Autor')
+        self.top_cadastroAutor.grab_set()
+
+        # alteração do ícone da janela
+        self.icone2 = tk.PhotoImage(file='logo_biblio2.png')
+        self.top_cadastroAutor.wm_iconphoto(False, self.icone2)
+
+        self.cadastroAutor = Frame(self.top_cadastroAutor, padding=10)
+        self.cadastroAutor.pack(anchor='center', expand=True, side='left')
+
+
+        self.str_nomeAutor = tk.StringVar()
+
+        self.lbl_cadastroAutor = ttk.Label(self.cadastroAutor, text='Nome do Autor:', font=self.fontelbl)
+        self.lbl_cadastroAutor.pack(anchor='center')
+        self.cmpo_cadastroAutor = ttk.Entry(self.cadastroAutor, width=50, font=self.fonteent,textvariable=self.str_nomeAutor)
+        self.cmpo_cadastroAutor.pack(anchor='center')
+        self.btnCadAutor = Button(self.cadastroAutor, text='CADASTRAR', command=self.concluir_cadastro_autor)
+        self.btnCadAutor.pack(anchor='center', expand=True, pady=10)
+
+    def concluir_cadastro_autor(self):
+        self.at1.adicionar_autor(f'"{self.str_nomeAutor.get()}"')
+        self.top_cadastroAutor.destroy()
+        Messagebox.show_info(f'Autor {self.str_nomeAutor.get()} cadastrado!', 'Sucesso')
+
     
     def exibir_autores(self):
         self.trevieewEditora.destroy()
         self.frame_botoesEditoras.destroy()
+        #self.frame_botoesAutores.destroy()
 
         self.trevieewSessao.destroy()
         self.trevieewLivro.destroy()
         self.trevieewAutor.destroy()
 
-        autorGet = self.autor.listar_autor()
-        self.rowdataAutor = autorGet
+        a1 = Autor()
+        self.autorGet = a1.listar_autor()
+        self.rowdataAutor = self.autorGet
 
         # rowdata = 
         self.trevieewAutor = ttk.Treeview(self.janela, columns=['0', '1'], show='headings', selectmode='browse', height=25)
@@ -224,11 +254,61 @@ class TelaLogin:
         self.trevieewAutor.column('1',width=450,anchor='center')
         self.trevieewAutor.pack(fill=tk.Y, padx=25, pady=25)
 
+        for row in self.autorGet:
+            self.trevieewAutor.insert('','end',id=row[0],values=(row[0],row[1]))
+
+        # # Frame para os botões
+        self.frame_botoesAutores = tk.Frame(self.janela)
+        self.frame_botoesAutores.pack(pady=10) 
+
+        # Botão de excluir  
+        self.btn_excluirAutor = ttk.Button(self.frame_botoesAutores, text="EXCLUIR", bootstyle="DANGER", command=lambda: self.excluir_autor(self.trevieewAutor.selection()) )
+        self.btn_excluirAutor.pack(side=tk.LEFT, padx=5)
+
+        # Botão de editar
+        self.btn_editarAutor = ttk.Button(self.frame_botoesAutores, text="EDITAR", bootstyle="SUCCESS", command=lambda: self.editar_autor(self.trevieewAutor.selection()))
+        self.btn_editarAutor.pack(side=tk.LEFT, padx=5)
+
+        # Botão de atualizar
+        self.btn_editarAutor = ttk.Button(self.frame_botoesAutores, text="ATUALIZAR", bootstyle="INFO", command=self.exibir_autores)
+        self.btn_editarAutor.pack(side=tk.LEFT, padx=5)
+
+    def excluir_autor(self,autor_selecionada):
+        a1 = Autor()
+        id_autor = autor_selecionada[0]
+        show_info = Messagebox.show_question(f"VOCÊ TEM CERTEZA QUE DESEJA DELETAR O AUTOR DE ID = {id_autor}",title='CONFIRMAÇÃO DE EXCLUSÃO')
+        if show_info:
+            a1.excluir_autor(id_autor)
+
+    def editar_autor(self,autor_selecionada):
+        a1 = Autor()
+        id_autor = autor_selecionada[0]
+
+        self.top_edicaoAutor = tk.Toplevel(self.janela,width=100)
+        self.top_edicaoAutor.title('Edição de Autor')
+        self.top_edicaoAutor.grab_set()
+
+        # alteração do ícone da janela
+        self.icone2 = tk.PhotoImage(file='logo_biblio3.png')
+        self.top_edicaoAutor.wm_iconphoto(False, self.icone2)
+
+        self.edicaoAutor = Frame(self.top_edicaoAutor, padding=10)
+        self.edicaoAutor.pack(anchor='center', expand=True, side='left')
+
+        self.str_nomeAutor = tk.StringVar()
+
+        self.lbl_edicaoAutor = ttk.Label(self.edicaoAutor, text='Nome do Autor:', font=self.fontelbl)
+        self.lbl_edicaoAutor.pack(anchor='center')
+        self.cmpo_edicaoAutor = ttk.Entry(self.edicaoAutor, width=50, font=self.fonteent,textvariable=self.str_nomeAutor)
+        self.cmpo_edicaoAutor.insert(0,a1.get_dado_autor('nomeAutor',id_autor))
+        self.cmpo_edicaoAutor.pack(anchor='center')
+        self.btnEdiAutor = Button(self.edicaoAutor, text='EDITAR',command=lambda:a1.editar_autor(id_autor,self.str_nomeAutor.get()))
+        self.btnEdiAutor.pack(anchor='center', expand=True, pady=10)
 
     def cadastrar_sessao(self):
         s1 = Sessao()
         self.top_cadastroSessao = tk.Toplevel(self.janela,width=100)
-        self.top_cadastroSessao.title('Cadastro de Livro')
+        self.top_cadastroSessao.title('Cadastro de Sessão')
         self.top_cadastroSessao.grab_set()
 
         # alteração do ícone da janela
@@ -267,6 +347,7 @@ class TelaLogin:
         dados = f'"{self.cmp_nomeSessao.get()}","{self.str_descrSessao.get()}","{self.str_statusSessao.get()}"'
         self.btnCadSessao = Button(self.frmCadSessao, text='CADASTRAR',command=lambda: s1.adicionar_Sessao(f'"{self.cmp_nomeSessao.get()}","{self.str_descrSessao.get()}","{self.str_statusSessao.get()}"'))
         self.btnCadSessao.pack(anchor='center', expand=True, pady=10)
+
     def exibir_sessoes(self):
         s1 = Sessao()
         self.sessao_get = s1.listar_Sessao()
@@ -314,10 +395,10 @@ class TelaLogin:
         s1 = Sessao()
         id_sessao = sessao_selecionada[0]
         self.top_editarSessao = tk.Toplevel(self.janela,width=100)
-        self.top_editarSessao.title('Editar de Livro')
+        self.top_editarSessao.title('Editar de Sessão')
         self.top_editarSessao.grab_set()
 
-        self.icone2 = tk.PhotoImage(file='logo_biblio2.png')
+        self.icone2 = tk.PhotoImage(file='logo_biblio3.png')
         self.top_editarSessao.wm_iconphoto(False, self.icone2)
 
         
@@ -435,7 +516,7 @@ class TelaLogin:
         self.top_edicaoEditora.grab_set()
 
         # alteração do ícone da janela
-        self.icone2 = tk.PhotoImage(file='logo_biblio2.png')
+        self.icone2 = tk.PhotoImage(file='logo_biblio3.png')
         self.top_edicaoEditora.wm_iconphoto(False, self.icone2)
 
         self.edicaoEditora = Frame(self.top_edicaoEditora, padding=10)

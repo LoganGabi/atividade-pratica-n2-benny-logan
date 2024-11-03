@@ -100,11 +100,13 @@ class TelaLogin:
         self.mnu_autores = ttk.Menu(self.menu)
         self.mnu_sessoes = ttk.Menu(self.menu)
         self.mnu_editoras = ttk.Menu(self.menu)
+        self.mnu_temas = ttk.Menu(self.menu)
 
         self.menu.add_cascade(label='LIVROS', menu=self.mnu_livros, font=self.fontelbl)
         self.menu.add_cascade(label='AUTORES', menu=self.mnu_autores)
         self.menu.add_cascade(label='SESSÕES', menu=self.mnu_sessoes)
         self.menu.add_cascade(label="EDITORAS",menu=self.mnu_editoras)
+        self.menu.add_cascade(label="TEMAS", menu=self.mnu_temas)
 
         self.mnu_livros.add_command(label='Cadastrar Livro', command=self.cadastrar_livro)
         self.mnu_livros.add_command(label='Visualizar Livro',command=self.exibir_livros)
@@ -117,6 +119,8 @@ class TelaLogin:
 
         self.mnu_editoras.add_command(label="Cadastrar Editora",command=self.cadastrar_editora)
         self.mnu_editoras.add_command(label="Visualizar Editora",command=self.exibir_editoras)
+
+        self.mnu_temas.add_command(label="Alterar Tema", command=self.alterar_tema)
 
         self.janela.config(menu=self.menu)
         
@@ -323,6 +327,25 @@ class TelaLogin:
         self.btnEdiEditora = Button(self.edicaoEditora, text='EDITAR',command=lambda:e1.editar_editora(id_editora,self.str_nomeEditora.get()))
         self.btnEdiEditora.pack(anchor='center', expand=True, pady=10)
 
+    def alterar_tema(self):
+        self.top_mudarTema = tk.Toplevel(self.janela,width=100)
+        self.top_mudarTema.title('Mudança de Tema')
+        self.top_mudarTema.grab_set()
+
+        frmTema = Frame(self.top_mudarTema, padding=10)
+        frmTema.pack()
+
+        self.temas = ('Morph', 'Journal', 'Darkly', 'Superhero', 'Solar', 'Cyborg', 'Vapor', 'Simplex', 'Cerculean',
+                'Cosmo', 'Flatly', 'Litera', 'Minty', 'Lumen', 'Sandstone', 'Yeti', 'Pulse', 'United')
+        self.cbx_temas = Combobox(frmTema, values=self.temas, font=self.fonteent)
+        self.cbx_temas.pack()
+
+        self.btnConfirmarTema = Button(frmTema, text='CONFIRMAR', command=self.concluir_mudanca_tema)
+        self.btnConfirmarTema.pack(pady=10)
+        
+    def concluir_mudanca_tema(self):
+        temaSelecionado = self.cbx_temas.get()
+        self.janela.style.theme_use(temaSelecionado.lower())
 
 
 janela = ttk.Window(themename='vapor')

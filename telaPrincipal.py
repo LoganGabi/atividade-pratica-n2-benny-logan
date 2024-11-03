@@ -250,19 +250,29 @@ class TelaLogin:
         #     ('A136', 'Kimdee Inc.', 45),
         #     ('A158', 'Farmadding Co.', 36)
         # ]
-
+        lv1 = Livro()
+        self.livroGet = lv1.listar_livros()
+        self.rowdataLivro = self.livroGet
         self.trevieewLivro = ttk.Treeview(self.janela, columns=['0','1','2','3','4'], show='headings', selectmode='browse', height=25)
         self.trevieewLivro.heading('0', text='ID')
         self.trevieewLivro.column('0',width=98,anchor='center')
         self.trevieewLivro.heading('1', text='Nome do Livro')
+        self.trevieewLivro.column('1',anchor='center')
         self.trevieewLivro.heading('2',text='ID Autor')
+        self.trevieewLivro.column('2',anchor='center')
         self.trevieewLivro.heading('3',text='ID Tipo do Livro')
+        self.trevieewLivro.column('3',anchor='center')
         self.trevieewLivro.heading('4',text='ID Sessão')
+        self.trevieewLivro.column('4',anchor='center')
         self.trevieewLivro.pack(fill=tk.Y, padx=25, pady=25)
+
+        for row in self.livroGet:
+            self.trevieewLivro.insert('','end',id=row[0],values=(row[0],row[1],row[4],row[3],row[6]))
 
 
     def excluir_livro(self):
-        ...
+        lv1 = Livro()
+        
     def cadastrar_autor(self):
         self.at1 = Autor()
         self.top_cadastroAutor = tk.Toplevel(self.janela,width=100)

@@ -69,6 +69,33 @@ class CRUD():
         except sqlite3.Error as er:
             print(er)
 
+    def get_dado(self,entidade,atributo):
+        sql = f"""SELECT {atributo} FROM {entidade}"""
+        try:
+            con = self.conexao.getConexao()
+            cursor = con.cursor()
+            cursor.execute(sql)
+            resultado = cursor.fetchall()
+            con.close()
+            print(resultado)
+            return resultado
+        except sqlite3.Error as er:
+            print(er)
+
+    def get_dado_cad(self,entidade,atributo):
+        sql = f"""SELECT {atributo} FROM {entidade}"""
+        try:
+            con = self.conexao.getConexao()
+            cursor = con.cursor()
+            cursor.execute(sql)
+            resultado = cursor.fetchone()
+            con.close()
+            print(resultado)
+            return resultado
+        except sqlite3.Error as er:
+            print(er)
 
 
+c1 = CRUD()
+c1.get_dado('Sessao','nomeSessao')
 

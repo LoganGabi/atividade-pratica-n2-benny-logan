@@ -7,7 +7,9 @@ from autor import Autor
 from editora import Editora
 from ttkbootstrap.dialogs import Messagebox
 
+from livro import Livro
 from sessao import Sessao
+from tipoLivro import TipoLivro
 
 class TelaLogin:
     def __init__(self, master):
@@ -133,6 +135,7 @@ class TelaLogin:
         self.frame_botoesEditoras = tk.Frame(self.janela)
         self.frame_botoesSessoes = tk.Frame(self.janela)
     def cadastrar_livro(self):
+        self.lv1 = Livro()
         self.top_cadastro_livro = tk.Toplevel(self.janela,width=100)
         self.top_cadastro_livro.title('Cadastro de Livro')
         self.top_cadastro_livro.grab_set()
@@ -148,23 +151,43 @@ class TelaLogin:
             #     cmpNvoLivro = ttk.Entry(janela)
             #     cmpNvoLivro.pack()
 
+
+        self.str_nomeLivro = tk.StringVar()
+        self.int_edicao = tk.IntVar()
+        self.int_idEditora = tk.IntVar()
+        self.int_idAutor = tk.IntVar()
+        self.str_tipoLivro = tk.StringVar()
+        self.int_sessao = tk.IntVar()
+
         self.frmCadLivro = Frame(self.top_cadastro_livro, padding=10)
         self.frmCadLivro.pack(anchor='center', expand=True, side='left')
         
         self.lbl_nomeLivro = ttk.Label(self.frmCadLivro, text='Nome:', font=self.fontelbl)
         self.lbl_nomeLivro.pack(anchor='center')
-        self.cmp_nomeLivro = ttk.Entry(self.frmCadLivro, width=50, font=self.fonteent)
+        self.cmp_nomeLivro = ttk.Entry(self.frmCadLivro, width=50, font=self.fonteent,textvariable=self.str_nomeLivro)
         self.cmp_nomeLivro.pack(anchor='center')
+
+        self.lbl_nEdicao = ttk.Label(self.frmCadLivro, text='N Edição:', font=self.fontelbl)
+        self.lbl_nEdicao.pack(anchor='center')
+        self.cmp_nEdicao = ttk.Entry(self.frmCadLivro, width=50, font=self.fonteent,textvariable=self.int_edicao)
+        self.cmp_nEdicao.pack(anchor='center')
 
         self.lbl_autorLivro = ttk.Label(self.frmCadLivro, text='Autor:', font=self.fontelbl)
         self.lbl_autorLivro.pack(anchor='center')
-        self.opcoes = ["Novo Autor", "Opção 2", "Opção 3", "Opção 4"]
-        self.combobox_autorLivro = ttk.Combobox(self.frmCadLivro, values=self.opcoes,width=50, font=self.fonteent)
+
+        # PUXA OS ID DO AUTOR PARA SER SELECIONADO
+        a1 = Autor()
+        ids = a1.get_dado('id')
+        self.opcoesAutor = [id for id in ids ]
+        # PUXA OS ID DO AUTOR PARA SER SELECIONADO
+
+        self.combobox_autorLivro = ttk.Combobox(self.frmCadLivro, values=self.opcoesAutor,width=50, font=self.fonteent,textvariable=self.int_idAutor)
         self.combobox_autorLivro.pack(padx=40)
 
         self.frmEdSes = Frame(self.frmCadLivro)
         self.frmEdSes.pack(anchor='center', expand=True)
         
+
         self.lbl_nmeEditora = ttk.Label(self.frmEdSes,text='Editora:', font=self.fontelbl)
         self.lbl_nmeEditora.grid(row=0, column=0, sticky='w')
         #self.lbl_nmeEditora.pack(anchor='w',padx=40)
@@ -173,20 +196,44 @@ class TelaLogin:
         self.lbl_sessao.grid(row=0, column=1, sticky='e')
         #self.lbl_sessao.pack(anchor='e',padx=40)
 
-        self.opcoesSessao = [1,2,3,4,5,6,7]
-
-        self.cmp_nmeEditora = Combobox(self.frmEdSes,values=self.opcoesSessao,width=25, font=self.fonteent)
+        # PUXA OS ID DE EDITORA PARA SER SELECIONADO
+        e1 = Editora()
+        ids = e1.get_dado('id')
+        self.opcoesEditora = [id for id in ids]
+        # PUXA OS ID DE EDITORA PARA SER SELECIONADO
+        self.cmp_nmeEditora = Combobox(self.frmEdSes,values=self.opcoesEditora,width=25, font=self.fonteent,textvariable=self.int_idEditora)
         self.cmp_nmeEditora.grid(row=1, column=0)
         #self.cmp_nmeEditora.pack(side='left',anchor='w',pady=30,padx=20)
 
-        self.combobox_lblSessao = Combobox(self.frmEdSes,values=self.opcoesSessao,width=25, font=self.fonteent)
+        # PUXA OS ID DE SESSAO PARA SER SELECIONADO
+        s1 = Sessao()
+        ids = s1.get_dado('id')
+        self.opcoesSessao = [id for id in ids]
+        # PUXA OS ID DE EDITORA PARA SER SELECIONADO
+
+        self.combobox_lblSessao = Combobox(self.frmEdSes,values=self.opcoesSessao,width=25, font=self.fonteent,textvariable=self.int_sessao)
         self.combobox_lblSessao.grid(row=1, column=1)
         #self.combobox_lblSessao.pack(side='right',anchor='e',pady=30,padx=20)
 
-        self.btnCadLivro = Button(self.frmCadLivro, text='CADASTRAR')
+        self.lbl_tipoLivro = ttk.Label(self.frmCadLivro, text='Tipo de Livro:',font=self.fontelbl)
+        self.lbl_tipoLivro.pack(anchor='center')
+        self.cmp_tipoLivro = ttk.Entry(self.frmCadLivro, width=50, font=self.fonteent,textvariable=self.str_tipoLivro)
+        self.cmp_tipoLivro.pack(anchor='center')
+
+
+        self.btnCadLivro = Button(self.frmCadLivro, text='CADASTRAR',command=self.concluir_cadastro_livro)
         self.btnCadLivro.pack(anchor='center', expand=True, pady=10)
 
         #nome, edição, tipo, sessão, autor, editora
+    def concluir_cadastro_livro(self):
+        tlv1 = TipoLivro()
+        tlv1.adicionar_TipoLivro(f'"{self.str_tipoLivro.get()}"')
+        id_tvl1 = tlv1.get_dado('id')
+
+        self.lv1.adicionar_livro(f'"{self.str_nomeLivro.get()}","{self.int_edicao.get()}","{self.int_idAutor.get()}","{id_tvl1[0]}","{self.int_idEditora.get()}","{self.int_sessao.get()}"')
+        # atributos = f'"{self.nomeLivro}",{self.nEdicao},"{self.idAutor}","{self.idTipoLivro}","{self.idEditora},"{self.idSessao}"'
+        self.top_cadastro_livro.destroy()
+        Messagebox.show_info(f'Livro {self.str_nomeLivro.get()} cadastrado!', 'Sucesso')
 
     def exibir_livros(self):
         self.trevieewEditora.destroy()
@@ -213,6 +260,9 @@ class TelaLogin:
         self.trevieewLivro.heading('4',text='ID Sessão')
         self.trevieewLivro.pack(fill=tk.Y, padx=25, pady=25)
 
+
+    def excluir_livro(self):
+        ...
     def cadastrar_autor(self):
         self.at1 = Autor()
         self.top_cadastroAutor = tk.Toplevel(self.janela,width=100)
@@ -317,7 +367,7 @@ class TelaLogin:
         self.btnEdiAutor.pack(anchor='center', expand=True, pady=10)
 
     def cadastrar_sessao(self):
-        s1 = Sessao()
+        self.s1 = Sessao()
         self.top_cadastroSessao = tk.Toplevel(self.janela,width=100)
         self.top_cadastroSessao.title('Cadastro de Sessão')
         self.top_cadastroSessao.grab_set()
@@ -356,9 +406,13 @@ class TelaLogin:
         self.combobox_statusSessao = ttk.Combobox(self.frmCadSessao, values=self.opcoes,width=50, font=self.fonteent,textvariable=self.str_statusSessao)
         self.combobox_statusSessao.pack()
         dados = f'"{self.cmp_nomeSessao.get()}","{self.str_descrSessao.get()}","{self.str_statusSessao.get()}"'
-        self.btnCadSessao = Button(self.frmCadSessao, text='CADASTRAR',command=lambda: s1.adicionar_Sessao(f'"{self.cmp_nomeSessao.get()}","{self.str_descrSessao.get()}","{self.str_statusSessao.get()}"'))
+        self.btnCadSessao = Button(self.frmCadSessao, text='CADASTRAR',command=self.concluir_cadastro_sessao)
         self.btnCadSessao.pack(anchor='center', expand=True, pady=10)
 
+    def concluir_cadastro_sessao(self):
+        self.s1.adicionar_Sessao(f'"{self.cmp_nomeSessao.get()}","{self.str_descrSessao.get()}","{self.str_statusSessao.get()}"')
+        self.top_cadastroSessao.destroy()
+        Messagebox.show_info(f'Sessão {self.str_nomeSessao.get()} cadastrada!', 'Sucesso')
     def exibir_sessoes(self):
         s1 = Sessao()
         self.sessao_get = s1.listar_Sessao()

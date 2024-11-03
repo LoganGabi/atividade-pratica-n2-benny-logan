@@ -29,3 +29,5 @@ class Sessao:
     def get_dado_Sessao(self,atributo,id):
         return self.crud.get_dado_atributo(self.entidade,atributo,id)
     
+    def get_dado(self,atributo):
+        return self.crud.get_dado(self.entidade,atributo)

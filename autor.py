@@ -27,3 +27,6 @@ class Autor:
     def get_dado_autor(self,atributo,id):
         return self.crud.get_dado_atributo(self.entidade,atributo,id)
     
+    def get_dado(self,atributo):
+        return self.crud.get_dado(self.entidade,atributo)
+    

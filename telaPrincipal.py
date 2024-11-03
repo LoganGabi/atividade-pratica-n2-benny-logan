@@ -153,11 +153,11 @@ class TelaLogin:
         self.frmEdSes = Frame(self.frmCadLivro)
         self.frmEdSes.pack(anchor='center', expand=True)
         
-        self.lbl_nmeEditora = ttk.Label(self.frmEdSes,text='Editora', font=self.fontelbl)
+        self.lbl_nmeEditora = ttk.Label(self.frmEdSes,text='Editora:', font=self.fontelbl)
         self.lbl_nmeEditora.grid(row=0, column=0, sticky='w')
         #self.lbl_nmeEditora.pack(anchor='w',padx=40)
 
-        self.lbl_sessao = ttk.Label(self.frmEdSes,text='Número da Sessão', font=self.fontelbl)
+        self.lbl_sessao = ttk.Label(self.frmEdSes,text='Número da Sessão:', font=self.fontelbl)
         self.lbl_sessao.grid(row=0, column=1, sticky='e')
         #self.lbl_sessao.pack(anchor='e',padx=40)
 
@@ -224,9 +224,9 @@ class TelaLogin:
     
 
     def cadastrar_editora(self):
-        ed1 = Editora()
+        self.ed1 = Editora()
         self.top_cadastroEditora = tk.Toplevel(self.janela,width=100)
-        self.top_cadastroEditora.title('Cadastro de Livro')
+        self.top_cadastroEditora.title('Cadastro de Editora')
         self.top_cadastroEditora.grab_set()
 
         # alteração do ícone da janela
@@ -243,10 +243,13 @@ class TelaLogin:
         self.lbl_cadastroEditora.pack(anchor='center')
         self.cmpo_cadastroEditora = ttk.Entry(self.cadastroEditora, width=50, font=self.fonteent,textvariable=self.str_nomeEditora)
         self.cmpo_cadastroEditora.pack(anchor='center')
-        self.btnCadEditora = Button(self.cadastroEditora, text='CADASTRAR', command=lambda: ed1.adicionar_editora(f'"{self.str_nomeEditora.get()}"'))
+        self.btnCadEditora = Button(self.cadastroEditora, text='CADASTRAR', command=self.concluir_cadastro_editora)
         self.btnCadEditora.pack(anchor='center', expand=True, pady=10)
 
-
+    def concluir_cadastro_editora(self):
+        self.ed1.adicionar_editora(f'"{self.str_nomeEditora.get()}"')
+        self.top_cadastroEditora.destroy()
+        Messagebox.show_info(f'Editora {self.str_nomeEditora.get()} cadastrada!', 'Sucesso')
 
     def exibir_editoras(self):
         # Limpa os widgets anteriores
@@ -278,7 +281,11 @@ class TelaLogin:
         self.btn_excluirEditora.pack(side=tk.LEFT, padx=5)
 
         # Botão de editar
-        self.btn_editarEditora = ttk.Button(self.frame_botoesEditoras, text="EDITAR", bootstyle="SUCCESS",command=lambda: self.editar_editora(self.trevieewEditora.selection()))
+        self.btn_editarEditora = ttk.Button(self.frame_botoesEditoras, text="EDITAR", bootstyle="SUCCESS", command=lambda: self.editar_editora(self.trevieewEditora.selection()))
+        self.btn_editarEditora.pack(side=tk.LEFT, padx=5)
+
+        # Botão de atualizar
+        self.btn_editarEditora = ttk.Button(self.frame_botoesEditoras, text="ATUALIZAR", bootstyle="INFO", command=self.exibir_editoras)
         self.btn_editarEditora.pack(side=tk.LEFT, padx=5)
 
 

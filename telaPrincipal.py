@@ -102,11 +102,13 @@ class TelaLogin:
         self.mnu_autores = ttk.Menu(self.menu)
         self.mnu_sessoes = ttk.Menu(self.menu)
         self.mnu_editoras = ttk.Menu(self.menu)
+        self.mnu_temas = ttk.Menu(self.menu)
 
         self.menu.add_cascade(label='LIVROS', menu=self.mnu_livros, font=self.fontelbl)
         self.menu.add_cascade(label='AUTORES', menu=self.mnu_autores)
         self.menu.add_cascade(label='SESSÕES', menu=self.mnu_sessoes)
         self.menu.add_cascade(label="EDITORAS",menu=self.mnu_editoras)
+        self.menu.add_cascade(label="TEMAS", menu=self.mnu_temas)
 
         self.mnu_livros.add_command(label='Cadastrar Livro', command=self.cadastrar_livro)
         self.mnu_livros.add_command(label='Visualizar Livro',command=self.exibir_livros)
@@ -119,6 +121,8 @@ class TelaLogin:
 
         self.mnu_editoras.add_command(label="Cadastrar Editora",command=self.cadastrar_editora)
         self.mnu_editoras.add_command(label="Visualizar Editora",command=self.exibir_editoras)
+
+        self.mnu_temas.add_command(label="Alterar Tema", command=self.alterar_tema)
 
         self.janela.config(menu=self.menu)
         
@@ -155,11 +159,11 @@ class TelaLogin:
         self.frmEdSes = Frame(self.frmCadLivro)
         self.frmEdSes.pack(anchor='center', expand=True)
         
-        self.lbl_nmeEditora = ttk.Label(self.frmEdSes,text='Editora', font=self.fontelbl)
+        self.lbl_nmeEditora = ttk.Label(self.frmEdSes,text='Editora:', font=self.fontelbl)
         self.lbl_nmeEditora.grid(row=0, column=0, sticky='w')
         #self.lbl_nmeEditora.pack(anchor='w',padx=40)
 
-        self.lbl_sessao = ttk.Label(self.frmEdSes,text='Número da Sessão', font=self.fontelbl)
+        self.lbl_sessao = ttk.Label(self.frmEdSes,text='Número da Sessão:', font=self.fontelbl)
         self.lbl_sessao.grid(row=0, column=1, sticky='e')
         #self.lbl_sessao.pack(anchor='e',padx=40)
 
@@ -347,9 +351,9 @@ class TelaLogin:
         self.btnEditSessao.pack(anchor='center', expand=True, pady=10)
 
     def cadastrar_editora(self):
-        ed1 = Editora()
+        self.ed1 = Editora()
         self.top_cadastroEditora = tk.Toplevel(self.janela,width=100)
-        self.top_cadastroEditora.title('Cadastro de Livro')
+        self.top_cadastroEditora.title('Cadastro de Editora')
         self.top_cadastroEditora.grab_set()
 
         # alteração do ícone da janela
@@ -366,10 +370,13 @@ class TelaLogin:
         self.lbl_cadastroEditora.pack(anchor='center')
         self.cmpo_cadastroEditora = ttk.Entry(self.cadastroEditora, width=50, font=self.fonteent,textvariable=self.str_nomeEditora)
         self.cmpo_cadastroEditora.pack(anchor='center')
-        self.btnCadEditora = Button(self.cadastroEditora, text='CADASTRAR', command=lambda: ed1.adicionar_editora(f'"{self.str_nomeEditora.get()}"'))
+        self.btnCadEditora = Button(self.cadastroEditora, text='CADASTRAR', command=self.concluir_cadastro_editora)
         self.btnCadEditora.pack(anchor='center', expand=True, pady=10)
 
-
+    def concluir_cadastro_editora(self):
+        self.ed1.adicionar_editora(f'"{self.str_nomeEditora.get()}"')
+        self.top_cadastroEditora.destroy()
+        Messagebox.show_info(f'Editora {self.str_nomeEditora.get()} cadastrada!', 'Sucesso')
 
     def exibir_editoras(self):
         # Limpa os widgets anteriores
@@ -403,7 +410,11 @@ class TelaLogin:
         self.btn_excluirEditora.pack(side=tk.LEFT, padx=5)
 
         # Botão de editar
-        self.btn_editarEditora = ttk.Button(self.frame_botoesEditoras, text="EDITAR", bootstyle="SUCCESS",command=lambda: self.editar_editora(self.trevieewEditora.selection()))
+        self.btn_editarEditora = ttk.Button(self.frame_botoesEditoras, text="EDITAR", bootstyle="SUCCESS", command=lambda: self.editar_editora(self.trevieewEditora.selection()))
+        self.btn_editarEditora.pack(side=tk.LEFT, padx=5)
+
+        # Botão de atualizar
+        self.btn_editarEditora = ttk.Button(self.frame_botoesEditoras, text="ATUALIZAR", bootstyle="INFO", command=self.exibir_editoras)
         self.btn_editarEditora.pack(side=tk.LEFT, padx=5)
 
         
@@ -442,6 +453,25 @@ class TelaLogin:
         self.btnEdiEditora = Button(self.edicaoEditora, text='EDITAR',command=lambda:e1.editar_editora(id_editora,self.str_nomeEditora.get()))
         self.btnEdiEditora.pack(anchor='center', expand=True, pady=10)
 
+    def alterar_tema(self):
+        self.top_mudarTema = tk.Toplevel(self.janela,width=100)
+        self.top_mudarTema.title('Mudança de Tema')
+        self.top_mudarTema.grab_set()
+
+        frmTema = Frame(self.top_mudarTema, padding=10)
+        frmTema.pack()
+
+        self.temas = ('Morph', 'Journal', 'Darkly', 'Superhero', 'Solar', 'Cyborg', 'Vapor', 'Simplex', 'Cerculean',
+                'Cosmo', 'Flatly', 'Litera', 'Minty', 'Lumen', 'Sandstone', 'Yeti', 'Pulse', 'United')
+        self.cbx_temas = Combobox(frmTema, values=self.temas, font=self.fonteent)
+        self.cbx_temas.pack()
+
+        self.btnConfirmarTema = Button(frmTema, text='CONFIRMAR', command=self.concluir_mudanca_tema)
+        self.btnConfirmarTema.pack(pady=10)
+        
+    def concluir_mudanca_tema(self):
+        temaSelecionado = self.cbx_temas.get()
+        self.janela.style.theme_use(temaSelecionado.lower())
 
 
 janela = ttk.Window(themename='vapor')

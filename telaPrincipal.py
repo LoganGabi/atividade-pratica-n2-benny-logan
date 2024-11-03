@@ -244,6 +244,7 @@ class TelaLogin:
         self.frame_botoesEditoras.destroy()
         self.frame_botoesAutores.destroy()
         self.frame_botoesSessoes.destroy()
+        self.frame_botoesLivros.destroy()
         self.trevieewSessao.destroy()
         self.trevieewAutor.destroy()
         self.trevieewLivro.destroy()
@@ -311,7 +312,7 @@ class TelaLogin:
         self.int_edicao = tk.IntVar()
         self.int_idEditora = tk.IntVar()
         self.int_idAutor = tk.IntVar()
-        self.str_tipoLivro = tk.StringVar()
+        self.str_tipoLivro = tk.IntVar()
         self.int_sessao = tk.IntVar()
 
         self.frmeditLivro = Frame(self.top_editarLivro, padding=10)
@@ -381,7 +382,8 @@ class TelaLogin:
         self.cmp_tipoLivro.insert(5, lv1.get_dado_livro('idTipoLivro', id_livro))
         self.cmp_tipoLivro.pack(anchor='center')
 
-        self.btnEditLivro = Button(self.frmeditLivro, text='EDITAR',command=lambda: lv1.editar_livro(id_livro))
+        self.btnEditLivro = Button(self.frmeditLivro, text='EDITAR',
+    command=lambda: lv1.editar_livro(id_livro,self.str_nomeLivro.get(),self.int_edicao.get(),self.int_idAutor.get(),self.str_tipoLivro.get(),self.int_idEditora.get(),self.int_sessao.get()))
         self.btnEditLivro.pack(anchor='center', expand=True, pady=10)
         
     def cadastrar_autor(self):
@@ -418,6 +420,7 @@ class TelaLogin:
         self.frame_botoesAutores.destroy()
         self.frame_botoesSessoes.destroy()
         self.frame_botoesEditoras.destroy()
+        self.frame_botoesLivros.destroy()
 
         self.trevieewSessao.destroy()
         self.trevieewLivro.destroy()
@@ -540,6 +543,7 @@ class TelaLogin:
         self.frame_botoesAutores.destroy()
         self.frame_botoesSessoes.destroy()
         self.frame_botoesEditoras.destroy()
+        self.frame_botoesLivros.destroy()
 
         self.trevieewAutor.destroy()
         self.trevieewLivro.destroy()
@@ -654,6 +658,7 @@ class TelaLogin:
         self.frame_botoesEditoras.destroy()
         self.frame_botoesSessoes.destroy()
         self.frame_botoesAutores.destroy()
+        self.frame_botoesLivros.destroy()
 
         self.trevieewAutor.destroy()
         self.trevieewLivro.destroy()

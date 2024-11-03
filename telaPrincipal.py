@@ -125,7 +125,13 @@ class TelaLogin:
         self.mnu_temas.add_command(label="Alterar Tema", command=self.alterar_tema)
 
         self.janela.config(menu=self.menu)
-        
+
+
+
+        # RESOLVE O BUG DOS BOTOES
+        self.frame_botoesAutores = tk.Frame(self.janela)
+        self.frame_botoesEditoras = tk.Frame(self.janela)
+        self.frame_botoesSessoes = tk.Frame(self.janela)
     def cadastrar_livro(self):
         self.top_cadastro_livro = tk.Toplevel(self.janela,width=100)
         self.top_cadastro_livro.title('Cadastro de Livro')
@@ -184,7 +190,10 @@ class TelaLogin:
 
     def exibir_livros(self):
         self.trevieewEditora.destroy()
+
         self.frame_botoesEditoras.destroy()
+        self.frame_botoesAutores.destroy()
+        self.frame_botoesSessoes.destroy()
         self.trevieewSessao.destroy()
         self.trevieewAutor.destroy()
         self.trevieewLivro.destroy()
@@ -235,6 +244,8 @@ class TelaLogin:
     
     def exibir_autores(self):
         self.trevieewEditora.destroy()
+        self.frame_botoesAutores.destroy()
+        self.frame_botoesSessoes.destroy()
         self.frame_botoesEditoras.destroy()
         #self.frame_botoesAutores.destroy()
 
@@ -352,12 +363,14 @@ class TelaLogin:
         s1 = Sessao()
         self.sessao_get = s1.listar_Sessao()
         self.row_dataSessao = self.sessao_get
-        self.trevieewEditora.destroy()
+        self.frame_botoesAutores.destroy()
+        self.frame_botoesSessoes.destroy()
         self.frame_botoesEditoras.destroy()
 
         self.trevieewAutor.destroy()
         self.trevieewLivro.destroy()
         self.trevieewSessao.destroy()
+        self.trevieewEditora.destroy()
         
         self.trevieewSessao = ttk.Treeview(self.janela, columns=['0', '1','2'], show='headings', selectmode='browse', height=25)
         self.trevieewSessao.heading('0', text='ID')
@@ -463,6 +476,9 @@ class TelaLogin:
         # Limpa os widgets anteriores
         self.trevieewEditora.destroy()
         self.frame_botoesEditoras.destroy()
+        self.frame_botoesSessoes.destroy()
+        self.frame_botoesAutores.destroy()
+
         self.trevieewAutor.destroy()
         self.trevieewLivro.destroy()
         self.trevieewSessao.destroy()

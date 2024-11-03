@@ -621,7 +621,7 @@ class TelaLogin:
         self.combobox_statusSessao.set(s1.get_dado_Sessao('status',id_sessao))
         self.combobox_statusSessao.pack()
     
-        self.btnEditSessao = Button(self.frmeditSessao, text='EDITAR',command=lambda: s1.editar_Sessao(id_sessao))
+        self.btnEditSessao = Button(self.frmeditSessao, text='EDITAR',command=lambda: s1.editar_Sessao(id_sessao,self.str_nomeSessao.get(),self.str_descrSessao.get(),self.str_statusSessao.get()))
         self.btnEditSessao.pack(anchor='center', expand=True, pady=10)
 
     def cadastrar_editora(self):

@@ -134,6 +134,8 @@ class TelaLogin:
         self.frame_botoesAutores = tk.Frame(self.janela)
         self.frame_botoesEditoras = tk.Frame(self.janela)
         self.frame_botoesSessoes = tk.Frame(self.janela)
+        self.frame_botoesLivros = tk.Frame(self.janela)
+
     def cadastrar_livro(self):
         self.lv1 = Livro()
         self.top_cadastro_livro = tk.Toplevel(self.janela,width=100)
@@ -244,6 +246,7 @@ class TelaLogin:
         self.trevieewSessao.destroy()
         self.trevieewAutor.destroy()
         self.trevieewLivro.destroy()
+        self.frame_botoesLivros.destroy()
 
         # rowdata = [
         #     ('A123', 'IzzyCo', 12),
@@ -269,9 +272,29 @@ class TelaLogin:
         for row in self.livroGet:
             self.trevieewLivro.insert('','end',id=row[0],values=(row[0],row[1],row[4],row[3],row[6]))
 
+        # # Frame para os botões
+        self.frame_botoesLivros = tk.Frame(self.janela)
+        self.frame_botoesLivros.pack(pady=10) 
 
-    def excluir_livro(self):
+        # Botão de excluir  
+        self.btn_excluirLivro = ttk.Button(self.frame_botoesLivros, text="EXCLUIR", bootstyle="DANGER", command=lambda: self.excluir_livro(self.trevieewLivro.selection()) )
+        self.btn_excluirLivro.pack(side=tk.LEFT, padx=5)
+
+        # Botão de editar
+        self.btn_editarLivro = ttk.Button(self.frame_botoesLivros, text="EDITAR", bootstyle="SUCCESS", command=lambda: self.editar_livro(self.trevieewLivro.selection()))
+        self.btn_editarLivro.pack(side=tk.LEFT, padx=5)
+
+        # Botão de atualizar
+        self.btn_editarLivro = ttk.Button(self.frame_botoesLivros, text="ATUALIZAR", bootstyle="INFO", command=self.exibir_livros)
+        self.btn_editarLivro.pack(side=tk.LEFT, padx=5)
+
+
+    def excluir_livro(self, livro_selecionado):
         lv1 = Livro()
+        id_livro = livro_selecionado[0]
+        show_info = Messagebox.show_question(f"VOCÊ TEM CERTEZA QUE DESEJA DELETAR O LIVRO DE ID = {id_livro}",title='CONFIRMAÇÃO DE EXCLUSÃO')
+        if show_info:
+            lv1.excluir_livro(id_livro)
         
     def cadastrar_autor(self):
         self.at1 = Autor()
@@ -307,7 +330,6 @@ class TelaLogin:
         self.frame_botoesAutores.destroy()
         self.frame_botoesSessoes.destroy()
         self.frame_botoesEditoras.destroy()
-        #self.frame_botoesAutores.destroy()
 
         self.trevieewSessao.destroy()
         self.trevieewLivro.destroy()
@@ -460,11 +482,15 @@ class TelaLogin:
         self.btn_editarSessao = ttk.Button(self.frame_botoesSessoes, text="EDITAR", bootstyle="SUCCESS",command=lambda: self.editar_Sessao(self.trevieewSessao.selection()))
         self.btn_editarSessao.pack(side=tk.LEFT, padx=5)
 
+        # Botão de atualizar
+        self.btn_atualizarSessao = ttk.Button(self.frame_botoesSessoes, text="ATUALIZAR", bootstyle="INFO", command=self.exibir_sessoes)
+        self.btn_atualizarSessao.pack(side=tk.LEFT, padx=5)
+
         
     def excluir_Sessao(self,sessao_selecionada):
         s1 = Sessao()
         id_sessao = sessao_selecionada[0]
-        show_info = Messagebox.show_question(f"VOCÊ TEM CERTEZA QUE DESEJA DELETAR A SESSÕA DE ID = {id_sessao}",title='CONFIRMAÇÃO DE EXCLUSÃO')
+        show_info = Messagebox.show_question(f"VOCÊ TEM CERTEZA QUE DESEJA DELETAR A SESSÃO DE ID = {id_sessao}",title='CONFIRMAÇÃO DE EXCLUSÃO')
         if show_info:
             s1.excluir_Sessao(id_sessao)
     

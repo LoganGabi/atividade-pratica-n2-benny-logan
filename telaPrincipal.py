@@ -6,10 +6,16 @@ import tkinter as tk
 from autor import Autor
 from editora import Editora
 from ttkbootstrap.dialogs import Messagebox
+import sys
+import os
 
 from livro import Livro
 from sessao import Sessao
 from tipoLivro import TipoLivro
+
+def resource_path(relative_path):
+    base_path = getattr(sys, '_MEIPASS', os.path.abspath("."))
+    return os.path.join(base_path, relative_path)
 
 class TelaLogin:
     def __init__(self, master):
@@ -17,7 +23,8 @@ class TelaLogin:
         self.janela.title('Biblioteca Pessoal')
 
         # alteração do ícone da janela
-        self.icone = tk.PhotoImage(file='logo_biblio.png')
+        caminho_logo = resource_path("logo_biblio.png")
+        self.icone = tk.PhotoImage(file=caminho_logo)
         self.janela.wm_iconphoto(False, self.icone)
 
         # fontes padrão
@@ -150,7 +157,8 @@ class TelaLogin:
         self.top_cadastro_livro.grab_set()
 
         # alteração do ícone da janela
-        self.icone2 = tk.PhotoImage(file='logo_biblio2.png')
+        caminho_logo2 = resource_path("logo_biblio3.png")
+        self.icone2 = tk.PhotoImage(file=caminho_logo2)
         self.top_cadastro_livro.wm_iconphoto(False, self.icone2)
 
         # def atualizar_label(janela):
@@ -312,7 +320,7 @@ class TelaLogin:
         self.top_editarLivro.title('Editar de Livro')
         self.top_editarLivro.grab_set()
 
-        self.icone2 = tk.PhotoImage(file='logo_biblio3.png')
+        self.icone2 = tk.PhotoImage(file=resource_path('logo_biblio3.png'))
         self.top_editarLivro.wm_iconphoto(False, self.icone2)
 
         self.str_nomeLivro = tk.StringVar()
@@ -404,8 +412,8 @@ class TelaLogin:
         self.top_cadastroAutor.title('Cadastro de Autor')
         self.top_cadastroAutor.grab_set()
 
-        # alteração do ícone da janela
-        self.icone2 = tk.PhotoImage(file='logo_biblio2.png')
+        caminho_logo2 = resource_path("logo_biblio2.png")
+        self.icone2 = tk.PhotoImage(file=caminho_logo2)
         self.top_cadastroAutor.wm_iconphoto(False, self.icone2)
 
         self.cadastroAutor = Frame(self.top_cadastroAutor, padding=10)
@@ -485,7 +493,7 @@ class TelaLogin:
         self.top_edicaoAutor.grab_set()
 
         # alteração do ícone da janela
-        self.icone2 = tk.PhotoImage(file='logo_biblio3.png')
+        self.icone2 = tk.PhotoImage(file=resource_path('logo_biblio3.png'))
         self.top_edicaoAutor.wm_iconphoto(False, self.icone2)
 
         self.edicaoAutor = Frame(self.top_edicaoAutor, padding=10)
@@ -511,9 +519,9 @@ class TelaLogin:
         self.top_cadastroSessao = tk.Toplevel(self.janela,width=100)
         self.top_cadastroSessao.title('Cadastro de Sessão')
         self.top_cadastroSessao.grab_set()
-
+        caminho_logo2 = resource_path("logo_biblio2.png")
         # alteração do ícone da janela
-        self.icone2 = tk.PhotoImage(file='logo_biblio2.png')
+        self.icone2 = tk.PhotoImage(file=caminho_logo2)
         self.top_cadastroSessao.wm_iconphoto(False, self.icone2)
 
         # def atualizar_label(janela):
@@ -610,7 +618,7 @@ class TelaLogin:
         self.top_editarSessao.title('Editar de Sessão')
         self.top_editarSessao.grab_set()
 
-        self.icone2 = tk.PhotoImage(file='logo_biblio3.png')
+        self.icone2 = tk.PhotoImage(file=resource_path('logo_biblio3.png'))
         self.top_editarSessao.wm_iconphoto(False, self.icone2)
 
         self.str_nomeSessao = tk.StringVar()
@@ -651,9 +659,9 @@ class TelaLogin:
         self.top_cadastroEditora = tk.Toplevel(self.janela,width=100)
         self.top_cadastroEditora.title('Cadastro de Editora')
         self.top_cadastroEditora.grab_set()
-
+        caminho_logo2 = resource_path("logo_biblio2.png")
         # alteração do ícone da janela
-        self.icone2 = tk.PhotoImage(file='logo_biblio2.png')
+        self.icone2 = tk.PhotoImage(file=caminho_logo2)
         self.top_cadastroEditora.wm_iconphoto(False, self.icone2)
 
         self.cadastroEditora = Frame(self.top_cadastroEditora, padding=10)
@@ -733,9 +741,8 @@ class TelaLogin:
         self.top_edicaoEditora = tk.Toplevel(self.janela,width=100)
         self.top_edicaoEditora.title('edicao de Livro')
         self.top_edicaoEditora.grab_set()
-
         # alteração do ícone da janela
-        self.icone2 = tk.PhotoImage(file='logo_biblio3.png')
+        self.icone2 = tk.PhotoImage(file=resource_path('logo_biblio3.png'))
         self.top_edicaoEditora.wm_iconphoto(False, self.icone2)
 
         self.edicaoEditora = Frame(self.top_edicaoEditora, padding=10)

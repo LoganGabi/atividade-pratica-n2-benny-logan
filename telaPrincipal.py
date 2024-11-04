@@ -51,8 +51,15 @@ class TelaLogin:
         self.entSenha = Entry(self.frmLoginR, font=self.fonteent, show='*')
         self.entSenha.pack()
 
-        self.btnEntrar = Button(self.frmLoginR, text='ENTRAR',command=self.entrar_sistema)
+        self.btnEntrar = Button(self.frmLoginR, text='ENTRAR',command=self.confirmacaoLogin)
         self.btnEntrar.pack(pady=10)
+
+    def confirmacaoLogin(self):
+        if self.entUser.get() == 'adm' and self.entSenha.get() == 'adm':
+            self.entrar_sistema()
+        else:
+            Messagebox.show_warning('Verifique suas informações de login.','Credenciais incorretas')
+
 # ----------------TELA DE LOGIN ----------------------------
 
 # ----------------TREVIEWW LIVRO ----------------------------

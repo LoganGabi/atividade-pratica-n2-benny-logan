@@ -28,8 +28,8 @@ class TelaLogin:
         self.janela.wm_iconphoto(False, self.icone)
 
         # fontes padrão
-        self.fontelbl = ttk.font.Font(size=16, weight='bold')
-        self.fonteent = ttk.font.Font(size=16, weight='normal')
+        self.fontelbl = ttk.font.Font(size=12, weight='bold')
+        self.fonteent = ttk.font.Font(size=12, weight='normal')
 
         self.autor = Autor()
 # ----------------TELA DE LOGIN ----------------------------
@@ -51,12 +51,12 @@ class TelaLogin:
         self.lblUser = Label(self.frmLoginR, text='Usuário:', font=self.fontelbl)
         self.lblUser.pack(anchor='w')
         self.entUser = Entry(self.frmLoginR, font=self.fonteent)
-        self.entUser.pack()
+        self.entUser.pack(pady=5)
 
         self.lblSenha = Label(self.frmLoginR, text='Senha:', font=self.fontelbl)
         self.lblSenha.pack(anchor='w')
         self.entSenha = Entry(self.frmLoginR, font=self.fonteent, show='*')
-        self.entSenha.pack()
+        self.entSenha.pack(pady=5)
 
         self.btnEntrar = Button(self.frmLoginR, text='ENTRAR',command=self.confirmacaoLogin)
         self.btnEntrar.pack(pady=10)
@@ -152,22 +152,14 @@ class TelaLogin:
 
     def cadastrar_livro(self):
         self.lv1 = Livro()
-        self.top_cadastro_livro = tk.Toplevel(self.janela,width=100)
+        self.top_cadastro_livro = tk.Toplevel(self.janela)
         self.top_cadastro_livro.title('Cadastro de Livro')
+        self.top_cadastro_livro.geometry("700x600")
         self.top_cadastro_livro.grab_set()
 
-        # alteração do ícone da janela
         caminho_logo2 = resource_path("logo_biblio3.png")
         self.icone2 = tk.PhotoImage(file=caminho_logo2)
         self.top_cadastro_livro.wm_iconphoto(False, self.icone2)
-
-        # def atualizar_label(janela):
-            # if combobox.get()=="Novo Autor":
-            #     nvoLivro = ttk.Label(janela,text='Digite o novo autor')
-            #     nvoLivro.pack()
-            #     cmpNvoLivro = ttk.Entry(janela)
-            #     cmpNvoLivro.pack()
-
 
         self.str_nomeLivro = tk.StringVar()
         self.int_edicao = tk.IntVar()
@@ -176,72 +168,55 @@ class TelaLogin:
         self.str_tipoLivro = tk.StringVar()
         self.int_sessao = tk.IntVar()
 
-        self.frmCadLivro = Frame(self.top_cadastro_livro, padding=10)
-        self.frmCadLivro.pack(anchor='center', expand=True, side='left')
-        
+        self.frmCadLivro = Frame(self.top_cadastro_livro, padding=15)
+        self.frmCadLivro.pack(anchor='center', expand=True, padx=20, pady=20)
+
         self.lbl_nomeLivro = ttk.Label(self.frmCadLivro, text='Nome:', font=self.fontelbl)
-        self.lbl_nomeLivro.pack(anchor='center')
-        self.cmp_nomeLivro = ttk.Entry(self.frmCadLivro, width=50, font=self.fonteent,textvariable=self.str_nomeLivro)
-        self.cmp_nomeLivro.pack(anchor='center')
+        self.lbl_nomeLivro.grid(row=0, column=0, sticky='w', pady=5, padx=5)
+        self.cmp_nomeLivro = ttk.Entry(self.frmCadLivro, width=40, font=self.fonteent, textvariable=self.str_nomeLivro)
+        self.cmp_nomeLivro.grid(row=0, column=1, pady=5, padx=5)
 
-        self.lbl_nEdicao = ttk.Label(self.frmCadLivro, text='N Edição:', font=self.fontelbl)
-        self.lbl_nEdicao.pack(anchor='center')
-        self.cmp_nEdicao = ttk.Entry(self.frmCadLivro, width=50, font=self.fonteent,textvariable=self.int_edicao)
-        self.cmp_nEdicao.pack(anchor='center')
+        self.lbl_nEdicao = ttk.Label(self.frmCadLivro, text='Número da Edição:', font=self.fontelbl)
+        self.lbl_nEdicao.grid(row=1, column=0, sticky='w', pady=5, padx=5)
+        self.cmp_nEdicao = ttk.Entry(self.frmCadLivro, width=40, font=self.fonteent, textvariable=self.int_edicao)
+        self.cmp_nEdicao.grid(row=1, column=1, pady=5, padx=5)
 
-        self.lbl_autorLivro = ttk.Label(self.frmCadLivro, text='Autor:', font=self.fontelbl)
-        self.lbl_autorLivro.pack(anchor='center')
+        self.lbl_autorLivro = ttk.Label(self.frmCadLivro, text='Código do Autor:', font=self.fontelbl)
+        self.lbl_autorLivro.grid(row=2, column=0, sticky='w', pady=5, padx=5)
 
-        # PUXA OS ID DO AUTOR PARA SER SELECIONADO
+
         a1 = Autor()
         ids = a1.get_dado('id')
-        self.opcoesAutor = [id for id in ids ]
-        # PUXA OS ID DO AUTOR PARA SER SELECIONADO
+        self.opcoesAutor = [id for id in ids]
+        self.combobox_autorLivro = ttk.Combobox(self.frmCadLivro, values=self.opcoesAutor, width=38, font=self.fonteent, textvariable=self.int_idAutor)
+        self.combobox_autorLivro.grid(row=2, column=1, pady=5, padx=5)
 
-        self.combobox_autorLivro = ttk.Combobox(self.frmCadLivro, values=self.opcoesAutor,width=50, font=self.fonteent,textvariable=self.int_idAutor)
-        self.combobox_autorLivro.pack(padx=40)
+        self.lbl_nmeEditora = ttk.Label(self.frmCadLivro, text='Código da Editora:', font=self.fontelbl)
+        self.lbl_nmeEditora.grid(row=3, column=0, sticky='w', pady=5, padx=5)
 
-        self.frmEdSes = Frame(self.frmCadLivro)
-        self.frmEdSes.pack(anchor='center', expand=True)
-        
-
-        self.lbl_nmeEditora = ttk.Label(self.frmEdSes,text='Editora:', font=self.fontelbl)
-        self.lbl_nmeEditora.grid(row=0, column=0, sticky='w')
-        #self.lbl_nmeEditora.pack(anchor='w',padx=40)
-
-        self.lbl_sessao = ttk.Label(self.frmEdSes,text='Número da Sessão:', font=self.fontelbl)
-        self.lbl_sessao.grid(row=0, column=1, sticky='e')
-        #self.lbl_sessao.pack(anchor='e',padx=40)
-
-        # PUXA OS ID DE EDITORA PARA SER SELECIONADO
         e1 = Editora()
         ids = e1.get_dado('id')
         self.opcoesEditora = [id for id in ids]
-        # PUXA OS ID DE EDITORA PARA SER SELECIONADO
-        self.cmp_nmeEditora = Combobox(self.frmEdSes,values=self.opcoesEditora,width=25, font=self.fonteent,textvariable=self.int_idEditora)
-        self.cmp_nmeEditora.grid(row=1, column=0)
-        #self.cmp_nmeEditora.pack(side='left',anchor='w',pady=30,padx=20)
+        self.cmp_nmeEditora = ttk.Combobox(self.frmCadLivro, values=self.opcoesEditora, width=38, font=self.fonteent, textvariable=self.int_idEditora)
+        self.cmp_nmeEditora.grid(row=3, column=1, pady=5, padx=10)
 
-        # PUXA OS ID DE SESSAO PARA SER SELECIONADO
+        self.lbl_sessao = ttk.Label(self.frmCadLivro, text='Sessão:', font=self.fontelbl)
+        self.lbl_sessao.grid(row=4, column=0, sticky='w', pady=5, padx=5)
+
         s1 = Sessao()
         ids = s1.get_dado('id')
         self.opcoesSessao = [id for id in ids]
-        # PUXA OS ID DE EDITORA PARA SER SELECIONADO
+        self.combobox_lblSessao = ttk.Combobox(self.frmCadLivro, values=self.opcoesSessao, width=38, font=self.fonteent, textvariable=self.int_sessao)
+        self.combobox_lblSessao.grid(row=4, column=1, pady=5, padx=10)
 
-        self.combobox_lblSessao = Combobox(self.frmEdSes,values=self.opcoesSessao,width=25, font=self.fonteent,textvariable=self.int_sessao)
-        self.combobox_lblSessao.grid(row=1, column=1)
-        #self.combobox_lblSessao.pack(side='right',anchor='e',pady=30,padx=20)
+        self.lbl_tipoLivro = ttk.Label(self.frmCadLivro, text='Tipo de Livro:', font=self.fontelbl)
+        self.lbl_tipoLivro.grid(row=5, column=0, sticky='w', pady=5, padx=5)
+        self.cmp_tipoLivro = ttk.Entry(self.frmCadLivro, width=40, font=self.fonteent, textvariable=self.str_tipoLivro)
+        self.cmp_tipoLivro.grid(row=5, column=1, pady=5, padx=5)
 
-        self.lbl_tipoLivro = ttk.Label(self.frmCadLivro, text='Tipo de Livro:',font=self.fontelbl)
-        self.lbl_tipoLivro.pack(anchor='center')
-        self.cmp_tipoLivro = ttk.Entry(self.frmCadLivro, width=50, font=self.fonteent,textvariable=self.str_tipoLivro)
-        self.cmp_tipoLivro.pack(anchor='center')
+        self.btnCadLivro = Button(self.frmCadLivro, text='CADASTRAR', command=self.concluir_cadastro_livro,width=25)
+        self.btnCadLivro.grid(row=6, column=0, columnspan=2, pady=20, padx=5)
 
-
-        self.btnCadLivro = Button(self.frmCadLivro, text='CADASTRAR',command=self.concluir_cadastro_livro)
-        self.btnCadLivro.pack(anchor='center', expand=True, pady=10)
-
-        #nome, edição, tipo, sessão, autor, editora
 
     def concluir_cadastro_livro(self):
         tlv1 = TipoLivro()
@@ -302,7 +277,7 @@ class TelaLogin:
         self.btn_editarLivro.pack(side=tk.LEFT, padx=5)
 
         # Botão de atualizar
-        self.btn_editarLivro = ttk.Button(self.frame_botoesLivros, text="ATUALIZAR", bootstyle="INFO", command=self.exibir_livros)
+        self.btn_editarLivro = ttk.Button(self.frame_botoesLivros, text="ATUALIZAR TABELA", bootstyle="INFO", command=self.exibir_livros)
         self.btn_editarLivro.pack(side=tk.LEFT, padx=5)
 
 
@@ -313,11 +288,12 @@ class TelaLogin:
         if show_info:
             lv1.excluir_livro(id_livro)
 
-    def editar_livro(self,livro_selecionado):
+    def editar_livro(self, livro_selecionado):
         self.lv1 = Livro()
         self.id_livro = livro_selecionado[0]
-        self.top_editarLivro = tk.Toplevel(self.janela,width=100)
-        self.top_editarLivro.title('Editar de Livro')
+        self.top_editarLivro = tk.Toplevel(self.janela)
+        self.top_editarLivro.title('Editar Livro')
+        self.top_editarLivro.geometry("600x600")  
         self.top_editarLivro.grab_set()
 
         self.icone2 = tk.PhotoImage(file=resource_path('logo_biblio3.png'))
@@ -327,79 +303,65 @@ class TelaLogin:
         self.int_edicao = tk.IntVar()
         self.int_idEditora = tk.IntVar()
         self.int_idAutor = tk.IntVar()
-        self.str_tipoLivro = tk.IntVar()
+        self.str_tipoLivro = tk.StringVar() 
         self.int_sessao = tk.IntVar()
 
-        self.frmeditLivro = Frame(self.top_editarLivro, padding=10)
-        self.frmeditLivro.pack(anchor='center', expand=True, side='left')
-        
-        self.lbl_nomeLivro = ttk.Label(self.frmeditLivro, text='Nome:', font=self.fontelbl)
-        self.lbl_nomeLivro.pack(anchor='center')
-        self.cmp_nomeLivro = ttk.Entry(self.frmeditLivro, width=50, font=self.fonteent,textvariable=self.str_nomeLivro)
-        self.cmp_nomeLivro.insert(0,self.lv1.get_dado_livro('nomeLivro', self.id_livro))
-        self.cmp_nomeLivro.pack(anchor='center')
+        self.frmEdLivro = Frame(self.top_editarLivro, padding=15)
+        self.frmEdLivro.pack(anchor='center', expand=True, padx=20, pady=20)
 
-        self.lbl_nEdicao = ttk.Label(self.frmeditLivro, text='N Edição:', font=self.fontelbl)
-        self.lbl_nEdicao.pack(anchor='center')
-        self.cmp_nEdicao = ttk.Entry(self.frmeditLivro, width=50, font=self.fonteent,textvariable=self.int_edicao)
-        self.cmp_nEdicao.insert(1,self.lv1.get_dado_livro('edicao', self.id_livro))
-        self.cmp_nEdicao.pack(anchor='center')
+        self.lbl_nomeLivro = ttk.Label(self.frmEdLivro, text='Nome:', font=self.fontelbl)
+        self.lbl_nomeLivro.grid(row=0, column=0, sticky='w', pady=5, padx=5)
+        self.cmp_nomeLivro = ttk.Entry(self.frmEdLivro, width=40, font=self.fonteent, textvariable=self.str_nomeLivro)
+        self.cmp_nomeLivro.insert(0, self.lv1.get_dado_livro('nomeLivro', self.id_livro))
+        self.cmp_nomeLivro.grid(row=0, column=1, pady=5, padx=5)
 
-        self.lbl_autorLivro = ttk.Label(self.frmeditLivro, text='Autor:', font=self.fontelbl)
-        self.lbl_autorLivro.pack(anchor='center')
+    
+        self.lbl_nEdicao = ttk.Label(self.frmEdLivro, text='N Edição:', font=self.fontelbl)
+        self.lbl_nEdicao.grid(row=1, column=0, sticky='w', pady=5, padx=5)
+        self.cmp_nEdicao = ttk.Entry(self.frmEdLivro, width=40, font=self.fonteent, textvariable=self.int_edicao)
+        self.cmp_nEdicao.insert(0, self.lv1.get_dado_livro('edicao', self.id_livro))
+        self.cmp_nEdicao.grid(row=1, column=1, pady=5, padx=5)
 
-        # PUXA OS ID DO AUTOR PARA SER SELECIONADO
+        self.lbl_autorLivro = ttk.Label(self.frmEdLivro, text='Autor:', font=self.fontelbl)
+        self.lbl_autorLivro.grid(row=2, column=0, sticky='w', pady=5, padx=5)
+
         a1 = Autor()
         ids = a1.get_dado('id')
-        self.opcoesAutor = [id for id in ids ]
-        # PUXA OS ID DO AUTOR PARA SER SELECIONADO
+        self.opcoesAutor = [id for id in ids]
+        self.combobox_autorLivro = ttk.Combobox(self.frmEdLivro, values=self.opcoesAutor, width=38, font=self.fonteent, textvariable=self.int_idAutor)
+        self.combobox_autorLivro.grid(row=2, column=1, pady=5, padx=5)
+        self.combobox_autorLivro.set(self.lv1.get_dado_livro('idAutor', self.id_livro))  # Usando set para selecionar
 
-        self.combobox_autorLivro = ttk.Combobox(self.frmeditLivro, values=self.opcoesAutor,width=50, font=self.fonteent,textvariable=self.int_idAutor)
-        self.combobox_autorLivro.insert(2, self.lv1.get_dado_livro('idAutor', self.id_livro))
-        self.combobox_autorLivro.pack(padx=40)
+        self.lbl_nmeEditora = ttk.Label(self.frmEdLivro, text='Editora:', font=self.fontelbl)
+        self.lbl_nmeEditora.grid(row=3, column=0, sticky='w', pady=5, padx=5)
 
-        self.frmEdSes = Frame(self.frmeditLivro)
-        self.frmEdSes.pack(anchor='center', expand=True)
-        
-
-        self.lbl_nmeEditora = ttk.Label(self.frmEdSes,text='Editora:', font=self.fontelbl)
-        self.lbl_nmeEditora.grid(row=0, column=0, sticky='w')
-        #self.lbl_nmeEditora.pack(anchor='w',padx=40)
-
-        self.lbl_sessao = ttk.Label(self.frmEdSes,text='Número da Sessão:', font=self.fontelbl)
-        self.lbl_sessao.grid(row=0, column=1, sticky='e')
-        #self.lbl_sessao.pack(anchor='e',padx=40)
-
-        # PUXA OS ID DE EDITORA PARA SER SELECIONADO
         e1 = Editora()
         ids = e1.get_dado('id')
         self.opcoesEditora = [id for id in ids]
-        # PUXA OS ID DE EDITORA PARA SER SELECIONADO
-        self.cmp_nmeEditora = Combobox(self.frmEdSes,values=self.opcoesEditora,width=25, font=self.fonteent,textvariable=self.int_idEditora)
-        self.cmp_nmeEditora.insert(3, self.lv1.get_dado_livro('idEditora', self.id_livro))
-        self.cmp_nmeEditora.grid(row=1, column=0)
-        #self.cmp_nmeEditora.pack(side='left',anchor='w',pady=30,padx=20)
+        self.cmp_nmeEditora = ttk.Combobox(self.frmEdLivro, values=self.opcoesEditora, width=38, font=self.fonteent, textvariable=self.int_idEditora)
+        self.cmp_nmeEditora.grid(row=3, column=1, pady=5, padx=10)
+        self.cmp_nmeEditora.set(self.lv1.get_dado_livro('idEditora', self.id_livro))
 
-        # PUXA OS ID DE SESSAO PARA SER SELECIONADO
+        self.lbl_sessao = ttk.Label(self.frmEdLivro, text='Sessão:', font=self.fontelbl)
+        self.lbl_sessao.grid(row=4, column=0, sticky='w', pady=5, padx=5)
+
         s1 = Sessao()
         ids = s1.get_dado('id')
         self.opcoesSessao = [id for id in ids]
-        # PUXA OS ID DE EDITORA PARA SER SELECIONADO
+        self.combobox_lblSessao = ttk.Combobox(self.frmEdLivro, values=self.opcoesSessao, width=38, font=self.fonteent, textvariable=self.int_sessao)
+        self.combobox_lblSessao.grid(row=4, column=1, pady=5, padx=10)
+        self.combobox_lblSessao.set(self.lv1.get_dado_livro('idSessao', self.id_livro))
 
-        self.combobox_lblSessao = Combobox(self.frmEdSes,values=self.opcoesSessao,width=25, font=self.fonteent,textvariable=self.int_sessao)
-        self.combobox_lblSessao.insert(4, self.lv1.get_dado_livro('idSessao', self.id_livro))
-        self.combobox_lblSessao.grid(row=1, column=1)
-        #self.combobox_lblSessao.pack(side='right',anchor='e',pady=30,padx=20)
+        self.lbl_tipoLivro = ttk.Label(self.frmEdLivro, text='Tipo de Livro:', font=self.fontelbl)
+        self.lbl_tipoLivro.grid(row=5, column=0, sticky='w', pady=5, padx=5)
+        self.cmp_tipoLivro = ttk.Entry(self.frmEdLivro, width=40, font=self.fonteent, textvariable=self.str_tipoLivro)
+        self.cmp_tipoLivro.insert(0, self.lv1.get_dado_livro('idTipoLivro', self.id_livro))
+        self.cmp_tipoLivro.grid(row=5, column=1, pady=5, padx=5)
 
-        self.lbl_tipoLivro = ttk.Label(self.frmeditLivro, text='Tipo de Livro:',font=self.fontelbl)
-        self.lbl_tipoLivro.pack(anchor='center')
-        self.cmp_tipoLivro = ttk.Entry(self.frmeditLivro, width=50, font=self.fonteent,textvariable=self.str_tipoLivro)
-        self.cmp_tipoLivro.insert(5, self.lv1.get_dado_livro('idTipoLivro', self.id_livro))
-        self.cmp_tipoLivro.pack(anchor='center')
+        self.btnEditLivro = Button(self.frmEdLivro, text='EDITAR', command=self.concluir_editar_livro, width=25)
+        self.btnEditLivro.grid(row=6, column=0, columnspan=2, pady=20, padx=5)
 
-        self.btnEditLivro = Button(self.frmeditLivro, text='EDITAR',
-    command=self.concluir_editar_livro)
-        self.btnEditLivro.pack(anchor='center', expand=True, pady=10)
+
 
     def concluir_editar_livro(self):
         self.lv1.editar_livro(self.id_livro,self.str_nomeLivro.get(),self.int_edicao.get(),self.int_idAutor.get(),self.str_tipoLivro.get(),self.int_idEditora.get(),self.int_sessao.get())
@@ -423,9 +385,9 @@ class TelaLogin:
         self.str_nomeAutor = tk.StringVar()
 
         self.lbl_cadastroAutor = ttk.Label(self.cadastroAutor, text='Nome do Autor:', font=self.fontelbl)
-        self.lbl_cadastroAutor.pack(anchor='center')
+        self.lbl_cadastroAutor.pack(anchor='center',padx=5,pady=5)
         self.cmpo_cadastroAutor = ttk.Entry(self.cadastroAutor, width=50, font=self.fonteent,textvariable=self.str_nomeAutor)
-        self.cmpo_cadastroAutor.pack(anchor='center')
+        self.cmpo_cadastroAutor.pack(anchor='center',padx=5,pady=5)
         self.btnCadAutor = Button(self.cadastroAutor, text='CADASTRAR', command=self.concluir_cadastro_autor)
         self.btnCadAutor.pack(anchor='center', expand=True, pady=10)
 
@@ -474,7 +436,7 @@ class TelaLogin:
         self.btn_editarAutor.pack(side=tk.LEFT, padx=5)
 
         # Botão de atualizar
-        self.btn_editarAutor = ttk.Button(self.frame_botoesAutores, text="ATUALIZAR", bootstyle="INFO", command=self.exibir_autores)
+        self.btn_editarAutor = ttk.Button(self.frame_botoesAutores, text="ATUALIZAR TABELA", bootstyle="INFO", command=self.exibir_autores)
         self.btn_editarAutor.pack(side=tk.LEFT, padx=5)
 
     def excluir_autor(self,autor_selecionada):
@@ -502,10 +464,10 @@ class TelaLogin:
         self.str_nomeAutor = tk.StringVar()
 
         self.lbl_edicaoAutor = ttk.Label(self.edicaoAutor, text='Nome do Autor:', font=self.fontelbl)
-        self.lbl_edicaoAutor.pack(anchor='center')
+        self.lbl_edicaoAutor.pack(anchor='center',padx=5,pady=5)
         self.cmpo_edicaoAutor = ttk.Entry(self.edicaoAutor, width=50, font=self.fonteent,textvariable=self.str_nomeAutor)
         self.cmpo_edicaoAutor.insert(0,self.a1.get_dado_autor('nomeAutor',self.id_autor))
-        self.cmpo_edicaoAutor.pack(anchor='center')
+        self.cmpo_edicaoAutor.pack(anchor='center',padx=5,pady=5)
         self.btnEdiAutor = Button(self.edicaoAutor, text='EDITAR',command=self.concluir_editar_autor)
         self.btnEdiAutor.pack(anchor='center', expand=True, pady=10)
 
@@ -524,38 +486,30 @@ class TelaLogin:
         self.icone2 = tk.PhotoImage(file=caminho_logo2)
         self.top_cadastroSessao.wm_iconphoto(False, self.icone2)
 
-        # def atualizar_label(janela):
-            # if combobox.get()=="Novo Autor":
-            #     nvoLivro = ttk.Label(janela,text='Digite o novo autor')
-            #     nvoLivro.pack()
-            #     cmpNvoLivro = ttk.Entry(janela)
-            #     cmpNvoLivro.pack()
-
-
         self.str_nomeSessao = tk.StringVar()
         self.str_descrSessao = tk.StringVar()
         self.str_statusSessao = tk.StringVar()
-        self.frmCadSessao = Frame(self.top_cadastroSessao, padding=10)
-        self.frmCadSessao.pack(anchor='center', expand=True, side='left')
+        self.frmCadSessao = Frame(self.top_cadastroSessao, padding=15)
+        self.frmCadSessao.pack(anchor='center', expand=True, padx=20,pady=20)
         
         self.lbl_nomeSessao = ttk.Label(self.frmCadSessao, text='Nome:', font=self.fontelbl)
-        self.lbl_nomeSessao.pack(anchor='center')
+        self.lbl_nomeSessao.grid(row=0,column=0,sticky='w',padx=5,pady=5)
         self.cmp_nomeSessao = ttk.Entry(self.frmCadSessao, width=50, font=self.fonteent,textvariable=self.str_nomeSessao)
-        self.cmp_nomeSessao.pack(anchor='center')
+        self.cmp_nomeSessao.grid(row=0,column=1,pady=5,padx=5)
 
-        self.lbl_descrSessao = ttk.Label(self.frmCadSessao,text='Descrição',font=self.fontelbl)
-        self.lbl_descrSessao.pack(anchor='center')
+        self.lbl_descrSessao = ttk.Label(self.frmCadSessao,text='Descrição: ',font=self.fontelbl)
+        self.lbl_descrSessao.grid(row=1,column=0,sticky='w',padx=5,pady=5)
         self.cmp_descrSessao = ttk.Entry(self.frmCadSessao,width=50,font=self.fonteent,textvariable=self.str_descrSessao)
-        self.cmp_descrSessao.pack(anchor='center')
+        self.cmp_descrSessao.grid(row=1,column=1,padx=5,pady=10)
 
         self.opcoes = ["A","I"]
-        self.lbl_statusSessao = ttk.Label(self.frmCadSessao,text="Status",font=self.fontelbl)
-        self.lbl_statusSessao.pack(anchor='center')
-        self.combobox_statusSessao = ttk.Combobox(self.frmCadSessao, values=self.opcoes,width=50, font=self.fonteent,textvariable=self.str_statusSessao)
-        self.combobox_statusSessao.pack()
+        self.lbl_statusSessao = ttk.Label(self.frmCadSessao,text="Status:",font=self.fontelbl)
+        self.lbl_statusSessao.grid(row=2,column=0,sticky='w',padx=5,pady=5)
+        self.combobox_statusSessao = ttk.Combobox(self.frmCadSessao, values=self.opcoes,width=48, font=self.fonteent,textvariable=self.str_statusSessao)
+        self.combobox_statusSessao.grid(row=2,column=1,padx = 10,pady=5)
         dados = f'"{self.cmp_nomeSessao.get()}","{self.str_descrSessao.get()}","{self.str_statusSessao.get()}"'
         self.btnCadSessao = Button(self.frmCadSessao, text='CADASTRAR',command=self.concluir_cadastro_sessao)
-        self.btnCadSessao.pack(anchor='center', expand=True, pady=10)
+        self.btnCadSessao.grid(row=3,column=0,columnspan=2,pady=20,padx=5)
 
     def concluir_cadastro_sessao(self):
         self.s1.adicionar_Sessao(f'"{self.cmp_nomeSessao.get()}","{self.str_descrSessao.get()}","{self.str_statusSessao.get()}"')
@@ -600,7 +554,7 @@ class TelaLogin:
         self.btn_editarSessao.pack(side=tk.LEFT, padx=5)
 
         # Botão de atualizar
-        self.btn_atualizarSessao = ttk.Button(self.frame_botoesSessoes, text="ATUALIZAR", bootstyle="INFO", command=self.exibir_sessoes)
+        self.btn_atualizarSessao = ttk.Button(self.frame_botoesSessoes, text="ATUALIZAR TABELA", bootstyle="INFO", command=self.exibir_sessoes)
         self.btn_atualizarSessao.pack(side=tk.LEFT, padx=5)
 
         
@@ -671,9 +625,9 @@ class TelaLogin:
         self.str_nomeEditora = tk.StringVar()
 
         self.lbl_cadastroEditora = ttk.Label(self.cadastroEditora, text='Nome da Editora:', font=self.fontelbl)
-        self.lbl_cadastroEditora.pack(anchor='center')
+        self.lbl_cadastroEditora.pack(anchor='center',padx=5,pady=5)
         self.cmpo_cadastroEditora = ttk.Entry(self.cadastroEditora, width=50, font=self.fonteent,textvariable=self.str_nomeEditora)
-        self.cmpo_cadastroEditora.pack(anchor='center')
+        self.cmpo_cadastroEditora.pack(anchor='center',padx=5,pady=5)
         self.btnCadEditora = Button(self.cadastroEditora, text='CADASTRAR', command=self.concluir_cadastro_editora)
         self.btnCadEditora.pack(anchor='center', expand=True, pady=10)
 
@@ -722,7 +676,7 @@ class TelaLogin:
         self.btn_editarEditora.pack(side=tk.LEFT, padx=5)
 
         # Botão de atualizar
-        self.btn_editarEditora = ttk.Button(self.frame_botoesEditoras, text="ATUALIZAR", bootstyle="INFO", command=self.exibir_editoras)
+        self.btn_editarEditora = ttk.Button(self.frame_botoesEditoras, text="ATUALIZAR TABELA", bootstyle="INFO", command=self.exibir_editoras)
         self.btn_editarEditora.pack(side=tk.LEFT, padx=5)
 
         
@@ -739,7 +693,7 @@ class TelaLogin:
         self.id_editora = editora_selecionada[0]
 
         self.top_edicaoEditora = tk.Toplevel(self.janela,width=100)
-        self.top_edicaoEditora.title('edicao de Livro')
+        self.top_edicaoEditora.title('Edição de Livro')
         self.top_edicaoEditora.grab_set()
         # alteração do ícone da janela
         self.icone2 = tk.PhotoImage(file=resource_path('logo_biblio3.png'))
@@ -753,10 +707,10 @@ class TelaLogin:
         self.str_nomeEditora = tk.StringVar()
 
         self.lbl_edicaoEditora = ttk.Label(self.edicaoEditora, text='Nome da Editora:', font=self.fontelbl)
-        self.lbl_edicaoEditora.pack(anchor='center')
+        self.lbl_edicaoEditora.pack(anchor='center',padx=5,pady=5)
         self.cmpo_edicaoEditora = ttk.Entry(self.edicaoEditora, width=50, font=self.fonteent,textvariable=self.str_nomeEditora)
         self.cmpo_edicaoEditora.insert(0,self.e1.get_dado_editora('nomeEditora',self.id_editora))
-        self.cmpo_edicaoEditora.pack(anchor='center')
+        self.cmpo_edicaoEditora.pack(anchor='center',padx=5,pady=5)
         self.btnEdiEditora = Button(self.edicaoEditora, text='EDITAR',command=self.concluir_editar_editora)
         self.btnEdiEditora.pack(anchor='center', expand=True, pady=10)
 
@@ -786,7 +740,7 @@ class TelaLogin:
         self.janela.style.theme_use(temaSelecionado.lower())
 
 
-janela = ttk.Window(themename='vapor')
+janela = ttk.Window(themename='cyborg')
 janela.resizable(False, False)
 janela.wm_iconposition(10, 10)
 janela.geometry("1080x720")

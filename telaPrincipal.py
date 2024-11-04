@@ -48,7 +48,7 @@ class TelaLogin:
 
         self.lblSenha = Label(self.frmLoginR, text='Senha:', font=self.fontelbl)
         self.lblSenha.pack(anchor='w')
-        self.entSenha = Entry(self.frmLoginR, font=self.fonteent)
+        self.entSenha = Entry(self.frmLoginR, font=self.fonteent, show='*')
         self.entSenha.pack()
 
         self.btnEntrar = Button(self.frmLoginR, text='ENTRAR',command=self.entrar_sistema)
@@ -299,8 +299,8 @@ class TelaLogin:
             lv1.excluir_livro(id_livro)
 
     def editar_livro(self,livro_selecionado):
-        lv1 = Livro()
-        id_livro = livro_selecionado[0]
+        self.lv1 = Livro()
+        self.id_livro = livro_selecionado[0]
         self.top_editarLivro = tk.Toplevel(self.janela,width=100)
         self.top_editarLivro.title('Editar de Livro')
         self.top_editarLivro.grab_set()
@@ -321,13 +321,13 @@ class TelaLogin:
         self.lbl_nomeLivro = ttk.Label(self.frmeditLivro, text='Nome:', font=self.fontelbl)
         self.lbl_nomeLivro.pack(anchor='center')
         self.cmp_nomeLivro = ttk.Entry(self.frmeditLivro, width=50, font=self.fonteent,textvariable=self.str_nomeLivro)
-        self.cmp_nomeLivro.insert(0,lv1.get_dado_livro('nomeLivro', id_livro))
+        self.cmp_nomeLivro.insert(0,self.lv1.get_dado_livro('nomeLivro', self.id_livro))
         self.cmp_nomeLivro.pack(anchor='center')
 
         self.lbl_nEdicao = ttk.Label(self.frmeditLivro, text='N Edição:', font=self.fontelbl)
         self.lbl_nEdicao.pack(anchor='center')
         self.cmp_nEdicao = ttk.Entry(self.frmeditLivro, width=50, font=self.fonteent,textvariable=self.int_edicao)
-        self.cmp_nEdicao.insert(1,lv1.get_dado_livro('edicao', id_livro))
+        self.cmp_nEdicao.insert(1,self.lv1.get_dado_livro('edicao', self.id_livro))
         self.cmp_nEdicao.pack(anchor='center')
 
         self.lbl_autorLivro = ttk.Label(self.frmeditLivro, text='Autor:', font=self.fontelbl)
@@ -340,7 +340,7 @@ class TelaLogin:
         # PUXA OS ID DO AUTOR PARA SER SELECIONADO
 
         self.combobox_autorLivro = ttk.Combobox(self.frmeditLivro, values=self.opcoesAutor,width=50, font=self.fonteent,textvariable=self.int_idAutor)
-        self.combobox_autorLivro.insert(2, lv1.get_dado_livro('idAutor', id_livro))
+        self.combobox_autorLivro.insert(2, self.lv1.get_dado_livro('idAutor', self.id_livro))
         self.combobox_autorLivro.pack(padx=40)
 
         self.frmEdSes = Frame(self.frmeditLivro)
@@ -361,7 +361,7 @@ class TelaLogin:
         self.opcoesEditora = [id for id in ids]
         # PUXA OS ID DE EDITORA PARA SER SELECIONADO
         self.cmp_nmeEditora = Combobox(self.frmEdSes,values=self.opcoesEditora,width=25, font=self.fonteent,textvariable=self.int_idEditora)
-        self.cmp_nmeEditora.insert(3, lv1.get_dado_livro('idEditora', id_livro))
+        self.cmp_nmeEditora.insert(3, self.lv1.get_dado_livro('idEditora', self.id_livro))
         self.cmp_nmeEditora.grid(row=1, column=0)
         #self.cmp_nmeEditora.pack(side='left',anchor='w',pady=30,padx=20)
 
@@ -372,19 +372,24 @@ class TelaLogin:
         # PUXA OS ID DE EDITORA PARA SER SELECIONADO
 
         self.combobox_lblSessao = Combobox(self.frmEdSes,values=self.opcoesSessao,width=25, font=self.fonteent,textvariable=self.int_sessao)
-        self.combobox_lblSessao.insert(4, lv1.get_dado_livro('idSessao', id_livro))
+        self.combobox_lblSessao.insert(4, self.lv1.get_dado_livro('idSessao', self.id_livro))
         self.combobox_lblSessao.grid(row=1, column=1)
         #self.combobox_lblSessao.pack(side='right',anchor='e',pady=30,padx=20)
 
         self.lbl_tipoLivro = ttk.Label(self.frmeditLivro, text='Tipo de Livro:',font=self.fontelbl)
         self.lbl_tipoLivro.pack(anchor='center')
         self.cmp_tipoLivro = ttk.Entry(self.frmeditLivro, width=50, font=self.fonteent,textvariable=self.str_tipoLivro)
-        self.cmp_tipoLivro.insert(5, lv1.get_dado_livro('idTipoLivro', id_livro))
+        self.cmp_tipoLivro.insert(5, self.lv1.get_dado_livro('idTipoLivro', self.id_livro))
         self.cmp_tipoLivro.pack(anchor='center')
 
         self.btnEditLivro = Button(self.frmeditLivro, text='EDITAR',
-    command=lambda: lv1.editar_livro(id_livro,self.str_nomeLivro.get(),self.int_edicao.get(),self.int_idAutor.get(),self.str_tipoLivro.get(),self.int_idEditora.get(),self.int_sessao.get()))
+    command=self.concluir_editar_livro)
         self.btnEditLivro.pack(anchor='center', expand=True, pady=10)
+
+    def concluir_editar_livro(self):
+        self.lv1.editar_livro(self.id_livro,self.str_nomeLivro.get(),self.int_edicao.get(),self.int_idAutor.get(),self.str_tipoLivro.get(),self.int_idEditora.get(),self.int_sessao.get())
+        self.top_editarLivro.destroy()
+        Messagebox.show_info('Edição feita.','Sucesso')
         
     def cadastrar_autor(self):
         self.at1 = Autor()
@@ -465,8 +470,8 @@ class TelaLogin:
             a1.excluir_autor(id_autor)
 
     def editar_autor(self,autor_selecionada):
-        a1 = Autor()
-        id_autor = autor_selecionada[0]
+        self.a1 = Autor()
+        self.id_autor = autor_selecionada[0]
 
         self.top_edicaoAutor = tk.Toplevel(self.janela,width=100)
         self.top_edicaoAutor.title('Edição de Autor')
@@ -484,10 +489,15 @@ class TelaLogin:
         self.lbl_edicaoAutor = ttk.Label(self.edicaoAutor, text='Nome do Autor:', font=self.fontelbl)
         self.lbl_edicaoAutor.pack(anchor='center')
         self.cmpo_edicaoAutor = ttk.Entry(self.edicaoAutor, width=50, font=self.fonteent,textvariable=self.str_nomeAutor)
-        self.cmpo_edicaoAutor.insert(0,a1.get_dado_autor('nomeAutor',id_autor))
+        self.cmpo_edicaoAutor.insert(0,self.a1.get_dado_autor('nomeAutor',self.id_autor))
         self.cmpo_edicaoAutor.pack(anchor='center')
-        self.btnEdiAutor = Button(self.edicaoAutor, text='EDITAR',command=lambda:a1.editar_autor(id_autor,self.str_nomeAutor.get()))
+        self.btnEdiAutor = Button(self.edicaoAutor, text='EDITAR',command=self.concluir_editar_autor)
         self.btnEdiAutor.pack(anchor='center', expand=True, pady=10)
+
+    def concluir_editar_autor(self):
+        self.a1.editar_autor(self.id_autor,self.str_nomeAutor.get())
+        self.top_edicaoAutor.destroy()
+        Messagebox.show_info('Edição feita.','Sucesso')
 
     def cadastrar_sessao(self):
         self.s1 = Sessao()
@@ -587,8 +597,8 @@ class TelaLogin:
             s1.excluir_Sessao(id_sessao)
     
     def editar_Sessao(self,sessao_selecionada):
-        s1 = Sessao()
-        id_sessao = sessao_selecionada[0]
+        self.s1 = Sessao()
+        self.id_sessao = sessao_selecionada[0]
         self.top_editarSessao = tk.Toplevel(self.janela,width=100)
         self.top_editarSessao.title('Editar de Sessão')
         self.top_editarSessao.grab_set()
@@ -605,24 +615,29 @@ class TelaLogin:
         self.lbl_nomeSessao = ttk.Label(self.frmeditSessao, text='Nome:', font=self.fontelbl)
         self.lbl_nomeSessao.pack(anchor='center')
         self.cmp_nomeSessao = ttk.Entry(self.frmeditSessao, width=50, font=self.fonteent,textvariable=self.str_nomeSessao)
-        self.cmp_nomeSessao.insert(0,s1.get_dado_Sessao('nomeSessao',id_sessao))
+        self.cmp_nomeSessao.insert(0,self.s1.get_dado_Sessao('nomeSessao',self.id_sessao))
         self.cmp_nomeSessao.pack(anchor='center')
 
         self.lbl_descrSessao = ttk.Label(self.frmeditSessao,text='Descrição',font=self.fontelbl)
         self.lbl_descrSessao.pack(anchor='center')
         self.cmp_descrSessao = ttk.Entry(self.frmeditSessao,width=50,font=self.fonteent,textvariable=self.str_descrSessao)
-        self.cmp_descrSessao.insert(1,s1.get_dado_Sessao('descr',id_sessao))
+        self.cmp_descrSessao.insert(1,self.s1.get_dado_Sessao('descr',self.id_sessao))
         self.cmp_descrSessao.pack(anchor='center')
 
         self.opcoes = ["A","I"]
         self.lbl_statusSessao = ttk.Label(self.frmeditSessao,text="Status",font=self.fontelbl)
         self.lbl_statusSessao.pack(anchor='center')
         self.combobox_statusSessao = ttk.Combobox(self.frmeditSessao, values=self.opcoes,width=50, font=self.fonteent,textvariable=self.str_statusSessao)
-        self.combobox_statusSessao.set(s1.get_dado_Sessao('status',id_sessao))
+        self.combobox_statusSessao.set(self.s1.get_dado_Sessao('status',self.id_sessao))
         self.combobox_statusSessao.pack()
     
-        self.btnEditSessao = Button(self.frmeditSessao, text='EDITAR',command=lambda: s1.editar_Sessao(id_sessao,self.str_nomeSessao.get(),self.str_descrSessao.get(),self.str_statusSessao.get()))
+        self.btnEditSessao = Button(self.frmeditSessao, text='EDITAR',command=self.concluir_editar_sessao)
         self.btnEditSessao.pack(anchor='center', expand=True, pady=10)
+
+    def concluir_editar_sessao(self):
+        self.s1.editar_Sessao(self.id_sessao,self.str_nomeSessao.get(),self.str_descrSessao.get(),self.str_statusSessao.get())
+        self.top_editarSessao.destroy()
+        Messagebox.show_info('Edição feita.','Sucesso')    
 
     def cadastrar_editora(self):
         self.ed1 = Editora()
@@ -705,8 +720,8 @@ class TelaLogin:
             e1.excluir_editora(id_editora)
 
     def editar_editora(self,editora_selecionada):
-        e1 = Editora()
-        id_editora = editora_selecionada[0]
+        self.e1 = Editora()
+        self.id_editora = editora_selecionada[0]
 
         self.top_edicaoEditora = tk.Toplevel(self.janela,width=100)
         self.top_edicaoEditora.title('edicao de Livro')
@@ -726,10 +741,15 @@ class TelaLogin:
         self.lbl_edicaoEditora = ttk.Label(self.edicaoEditora, text='Nome da Editora:', font=self.fontelbl)
         self.lbl_edicaoEditora.pack(anchor='center')
         self.cmpo_edicaoEditora = ttk.Entry(self.edicaoEditora, width=50, font=self.fonteent,textvariable=self.str_nomeEditora)
-        self.cmpo_edicaoEditora.insert(0,e1.get_dado_editora('nomeEditora',id_editora))
+        self.cmpo_edicaoEditora.insert(0,self.e1.get_dado_editora('nomeEditora',self.id_editora))
         self.cmpo_edicaoEditora.pack(anchor='center')
-        self.btnEdiEditora = Button(self.edicaoEditora, text='EDITAR',command=lambda:e1.editar_editora(id_editora,self.str_nomeEditora.get()))
+        self.btnEdiEditora = Button(self.edicaoEditora, text='EDITAR',command=self.concluir_editar_editora)
         self.btnEdiEditora.pack(anchor='center', expand=True, pady=10)
+
+    def concluir_editar_editora(self):
+        self.e1.editar_editora(self.id_editora,self.str_nomeEditora.get())
+        self.top_edicaoEditora.destroy()
+        Messagebox.show_info('Edição feita.','Sucesso')
 
     def alterar_tema(self):
         self.top_mudarTema = tk.Toplevel(self.janela,width=100)

@@ -6,7 +6,7 @@ a = Analysis(
     pathex=[],
     binaries=[],
     datas=[('logo_biblio.png', '.'), ('logo_biblio2.png', '.'), ('logo_biblio3.png', '.'), ('bancoBiblio.db', '.')],
-    hiddenimports=['PIL._tkinter_finder'],
+    hiddenimports=["'PIL._tkinter_finder'"],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
@@ -35,4 +35,5 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
+    icon=['icon_biblio.ico'],
 )

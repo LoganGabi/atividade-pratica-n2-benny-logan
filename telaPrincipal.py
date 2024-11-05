@@ -157,7 +157,7 @@ class TelaLogin:
         self.top_cadastro_livro.geometry("700x600")
         self.top_cadastro_livro.grab_set()
 
-        caminho_logo2 = resource_path("logo_biblio3.png")
+        caminho_logo2 = resource_path("logo_biblio2.png")
         self.icone2 = tk.PhotoImage(file=caminho_logo2)
         self.top_cadastro_livro.wm_iconphoto(False, self.icone2)
 
